@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Message Repeater — Copy Tool</title>
+  <style>
+    :root{font-family:Inter,system-ui,Arial,Helvetica,sans-serif;color:#111}
+    
+    /* ------------------------------------------------ */
+    /* UPDATED BODY STYLES FOR HEADER/FOOTER LAYOUT */
+    body{
+        display:flex;
+        flex-direction:column; /* Stack header, wrapper, and footer */
+        min-height:100vh;      /* Ensure full screen height */
+        margin: 0;             /* Remove default margin */
+        padding: 0;            /* Remove default padding */
+        background:#f7f9fb;
+    }
+
+    /* CARD WRAPPER - Centers the card vertically and horizontally */
+    .card-wrapper {
+        flex-grow: 1; /* Pushes the footer down */
+        display: flex;
+        align-items: center; /* Vertically center the card */
+        justify-content: center; /* Horizontally center the card */
+        padding: 32px; /* Re-add the original body padding */
+    }
+    
+    /* NEW HEADER STYLES */
+    .app-header {
+        background: #fff;
+        box-shadow: 0 1px 4px rgba(20,30,60,0.05);
+        padding: 12px 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    .header-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #111;
+    }
+    .back-btn {
+        color: #fff;
+        text-decoration: none;
+        padding: 8px 15px;
+        border-radius: 6px;
+        background-color: #0b3a83; /* Matching the existing secondary button blue */
+        transition: background-color 0.2s;
+        font-size: 13px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        /* Ensure responsive padding on small screens */
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .back-btn:hover {
+        background-color: #0d469c;
+    }
+
+    /* NEW FOOTER STYLES */
+    .app-footer {
+        background: #fff;
+        border-top: 1px solid #e3e7ee;
+        padding: 10px 32px;
+        text-align: center;
+        font-size: 12px;
+        color: #889; 
+    }
+    
+    .card{width:100%;max-width:760px;background:#fff;border-radius:12px;box-shadow:0 6px 24px rgba(20,30,60,0.08);padding:20px}
+    h1{margin:0 0 10px;font-size:20px}
+    label{display:block;font-size:13px;margin:12px 0 6px}
+    input[type=text], input[type=number], select, textarea{width:100%;box-sizing:border-box;padding:10px;border:1px solid #4F46E5;border-radius:8px;font-size:14px}
+    .row{display:flex;gap:12px}
+    .row > *{flex:1}
+    button{padding:10px 14px;border-radius:10px;border:0;background:#111;color:#fff;font-weight:600;cursor:pointer}
+    button.secondary{background:#e6eefb;color:#0b3a83}
+    .output{min-height:140px;border-radius:8px;padding:12px;border:1px dashed #d6dce6;background:#fcfeff;white-space:pre-wrap;overflow:auto}
+    .meta{margin:8px 0px 6px 0px;font-size:13px;color:#556}
+    .controls{display:flex;gap:8px;margin-top:12px}
+    .small{font-size:13px;padding:8px 10px;border-radius:8px}
+    .hint{font-size:12px;color:#667;margin-top:8px}
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-title">Message Repeater Tool</div>
+    <a href="https://meow-me7.github.io/myweb/mywebpro.html" class="back-btn">
+        Back
+    </a>
+  </header>
+
+  <div class="card-wrapper">
+    <div class="card">
+      <h1>Message Repeater Type & Copy</h1>
+      <label for="msg">Message (what you want repeated)</label>
+      <input id="msg" type="text" placeholder="e.g. Hello World!" />
+
+      <div class="row" style="margin-top:8px">
+        <div>
+          <label for="count">How many copies?</label>
+          <input id="count" type="number" min="1" max="10000" value="" placeholder="e.g. 10" />
+        </div>
+        <div>
+          <label for="sep">Separator</label>
+          <select id="sep">
+            <option value="\n">New line</option>
+            <option value=", ">Comma + space</option>
+            <option value=" ">Space</option>
+            <option value="">No separator</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="generate">Generate</button>
+        <button id="copy" class="secondary small">Copy</button>
+        <button id="select" class="secondary small">Select All</button>
+        <button id="clear" class="secondary small">Clear</button>
+      </div>
+
+      <div class="hint">Tip: Use separator "New line" to get each copy on a new line (easier to paste in chats).</div>
+
+      <div class="meta">Output:</div>
+      <div id="out" class="output" contenteditable="false" aria-live="polite"></div>
+      <div class="meta" id="countInfo"></div>
+    </div>
+  </div> 
+
+  <footer class="app-footer">
+    &copy; 2025 Ideas Now Alive. All rights reserved.
+  </footer>
+  
+  <script>
+    const msg = document.getElementById('msg');
+    const count = document.getElementById('count');
+    const sep = document.getElementById('sep');
+    const out = document.getElementById('out');
+    const generate = document.getElementById('generate');
+    const copyBtn = document.getElementById('copy');
+    const selectBtn = document.getElementById('select');
+    const clearBtn = document.getElementById('clear');
+    const countInfo = document.getElementById('countInfo');
+
+    function safeText(s){
+      return String(s);
+    }
+
+    function makeRepeated(){
+      const text = safeText(msg.value || '');
+      let n = parseInt(count.value, 10) || 0;
+      if(n < 1){ n = 1; count.value = 1 }
+      if(n > 10000){ n = 10000; count.value = 10000 }
+      const separator = sep.value.replace(/\\n/g, '\n');
+      const arr = new Array(n).fill(text);
+      const result = arr.join(separator);
+      out.textContent = result;
+      countInfo.textContent = `Generated ${n} ${n===1? 'copy' : 'copies'}. Characters: ${result.length}`;
+    }
+
+    generate.addEventListener('click', makeRepeated);
+
+    copyBtn.addEventListener('click', async ()=>{
+      try{
+        await navigator.clipboard.writeText(out.textContent || '');
+        copyBtn.textContent = 'Copied';
+        setTimeout(()=> copyBtn.textContent = 'Copy to clipboard', 1500);
+      }catch(e){
+        selectAllOutput();
+        alert('Clipboard copy failed. Output selected — press Ctrl/Cmd+C to copy.');
+      }
+    });
+
+    selectBtn.addEventListener('click', ()=> selectAllOutput());
+
+    clearBtn.addEventListener('click', ()=>{
+      out.textContent = '';
+      countInfo.textContent = '';
+      msg.value = '';
+      count.value = '';
+    });
+
+    function selectAllOutput(){
+      const range = document.createRange();
+      range.selectNodeContents(out);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  </script>
+</body>
+</html>
