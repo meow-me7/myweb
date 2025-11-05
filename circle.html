@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Minecraft Circle Blueprint</title>
+<style>
+    body {
+        --color-bg-primary: #FFFFFF;
+        --color-bg-secondary: #F9FAFB;
+        --color-text-primary: #111827;
+        --color-text-secondary: #6B7280;
+        --color-primary: #4F46E5;
+        --color-border: #E5E7EB;
+        background: var(--color-bg-primary);
+        color: var(--color-text-primary);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body[data-theme="dark"] {
+        --color-bg-primary: #0A0A0A;
+        --color-bg-secondary: rgba(24, 24, 27, 0.95);
+        --color-text-primary: #F3F4F6;
+        --color-text-secondary: #9CA3AF;
+        --color-primary: #6366F1;
+        --color-border: rgba(75, 85, 99, 0.5);
+        background: var(--color-bg-primary);
+        color: var(--color-text-primary);
+    }
+
+    /* ==== LAYOUT ==== */
+    html, body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+    header, footer {
+        background: var(--color-bg-secondary);
+        border-bottom: 1px solid var(--color-border);
+    }
+    footer {
+        border-top: 1px solid var(--color-border);
+    }
+    .main-content-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 10px;
+        box-sizing: border-box;
+    }
+
+    /* ==== HEADER ==== */
+    .app-header {
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .header-title {
+        color: var(--color-primary);
+        font-weight: 700;
+        font-size: 20px;
+    }
+    .back-btn {
+        background: var(--color-primary);
+        color: #fff;
+        text-decoration: none;
+        padding: 8px 15px;
+        border-radius: 6px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        transition: 0.2s;
+    }
+    .back-btn:hover { opacity: 0.85; }
+
+    /* ==== CONTROLS ==== */
+    .controls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        margin: 20px 0;
+        background: var(--color-bg-secondary);
+        border: 1px solid var(--color-border);
+        border-radius: #;
+        width: 90%;
+        padding: 15px;
+    }
+    label {
+        display: flex;
+        align-items: center;
+        background: var(--color-bg-primary);
+        border: 1px solid var(--color-border);
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 14px;
+        color: var(--color-text-primary);
+    }
+    input[type="number"] {
+        background: var(--color-bg-secondary);
+        border: 1px solid var(--color-border);
+        color: var(--color-text-primary);
+        border-radius: 6px;
+        padding: 6px;
+        width: 80px;
+        margin-left: 8px;
+        text-align: center;
+    }
+
+    /* Toggle radio buttons */
+    .radio-group {
+        display: flex;
+        gap: 10px;
+        background: var(--color-bg-primary);
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        padding: 6px;
+    }
+    .radio-group label {
+        position: relative;
+        cursor: pointer;
+        padding: 8px 16px;
+        border-radius: 6px;
+        border: 4px solid transparent;
+        transition: all 0.2s ease;
+        font-weight: 500;
+        color: var(--color-text-primary);
+    }
+    .radio-group input[type="radio"] {
+        display: none; /* hide actual radios */
+    }
+    .radio-group input[type="radio"]:checked + span {
+        background: var(--color-primary);
+        color: #fff;
+        border-color: var(--color-primary);
+    }
+    .radio-group span {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: 1px solid var(--color-border);
+    }
+
+    .controls button {
+        background: var(--color-primary);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 25px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .controls button:hover {
+        opacity: 0.9;
+    }
+
+    /* ==== CANVAS ==== */
+    canvas {
+        border: 1px solid var(--color-border);
+        background: var(--color-bg-secondary);
+        display: block;
+        margin: 20px auto;
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+    }
+
+    footer {
+        text-align: center;
+        padding: 12px;
+        font-size: 12px;
+        color: var(--color-text-secondary);
+    }
+
+    @media (max-width: 480px) {
+        .controls { flex-direction: column; }
+        .radio-group { justify-content: center; }
+    }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+    <div class="header-title">Minecraft Circle Blueprint</div>
+    <a href="https://meow-me7.github.io/myweb/mywebpro.html" class="back-btn">
+        Back
+    </a>
+</header>
+
+<main class="main-content-wrapper">
+    <div class="controls">
+        <label>Radius <input type="number" id="radius" value="10" min="1"></label>
+        <div class="radio-group">
+            <label>
+                <input type="radio" name="style" value="filled" id="filled">
+                <span>Filled</span>
+            </label>
+            <label>
+                <input type="radio" name="style" value="outline" id="outline" checked>
+                <span>Outline</span>
+            </label>
+        </div>
+        <button onclick="drawCircle()">Draw</button>
+    </div>
+
+    <canvas id="circleCanvas"></canvas>
+    <p style="color: var(--color-text-secondary); font-size: 14px;">(Numbers show block counts in top-right quadrant)</p>
+</main>
+
+<footer>&copy; 2025 Ideas Now Alive. All rights reserved.</footer>
+
+<script>
+const canvas = document.getElementById('circleCanvas');
+const ctx = canvas.getContext('2d');
+
+function drawCircle() {
+    const radius = parseInt(document.getElementById('radius').value);
+    const filled = document.getElementById('filled').checked;
+    /*if (isNaN(radius) || radius < 1) return alert("Enter valid radius.");*/
+
+    const blockSize = 20;
+    const size = (radius * 2 + 4) * blockSize;
+    canvas.width = size;
+    canvas.height = size;
+    const center = (radius + 2) * blockSize;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const blockColor = filled ? "#433BC2" : "#433BC2";
+    const borderColor = "rgba(0,0,0,0.3)";
+
+    // calculate step groups
+    let lastY = null, count = 0, steps = [];
+    for (let x = 0; x <= radius; x++) {
+        let y = Math.round(Math.sqrt(radius * radius - x * x));
+        if (lastY !== null && lastY - y > 0) { steps.push(count); count = 0; }
+        count++; lastY = y;
+    }
+    if (count > 0) steps.push(count);
+
+    // draw blocks with border
+    for (let x = -radius; x <= radius; x++) {
+        for (let y = -radius; y <= radius; y++) {
+            const dist = Math.sqrt(x*x + y*y);
+            if ((filled && dist <= radius + 0.5) || (!filled && dist >= radius - 0.5 && dist <= radius + 0.5)) {
+                const px = center + x * blockSize;
+                const py = center + y * blockSize;
+                ctx.fillStyle = blockColor;
+                ctx.fillRect(px, py, blockSize, blockSize);
+                ctx.strokeStyle = borderColor;
+                ctx.strokeRect(px, py, blockSize, blockSize);
+            }
+        }
+    }
+
+    // show numbers in top-right quadrant
+    ctx.fillStyle = "white";
+    ctx.font = "bold 12px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    steps.forEach((num, i) => {
+        const px = center + (i * blockSize) + 10;
+        const py = center - (i * blockSize) - 10;
+        ctx.fillText(num, px, py);
+    });
+}
+
+window.onload = drawCircle;
+document.getElementById('radius').addEventListener('input', drawCircle);
+document.getElementById('filled').addEventListener('change', drawCircle);
+document.getElementById('outline').addEventListener('change', drawCircle);
+
+// Auto apply dark mode if system prefers
+(function() {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) document.body.setAttribute('data-theme', 'dark');
+})();
+</script>
+</body>
+</html>
