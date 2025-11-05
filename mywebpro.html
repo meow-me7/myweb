@@ -4,100 +4,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ideas Now Alive - Project Portfolio</title>
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Inter',
+                            'sans-serif'],
                     }
                 }
             }
         }
     </script>
-    
+
     <style>
-        html { scroll-behavior: smooth; }
-        
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             transition: background-color 0.3s, color 0.3s;
         }
-        
+
         /* Light mode (CSS kept but now unused) */
         body.light-mode {
             background-color: #FFFFFF;
             color: #111827;
         }
-        
+
         body.light-mode .bg-card {
             background-color: #F9FAFB;
             border: 1px solid #E5E7EB;
         }
-        
+
         body.light-mode .text-secondary {
             color: #6B7280;
         }
-        
+
         body.light-mode .border-custom {
             border-color: #E5E7EB;
         }
-        
+
         body.light-mode header,
         body.light-mode footer {
             border-color: #E5E7EB;
         }
-        
+
         /* Dark mode */
         body.dark-mode {
             background-color: #0A0A0A;
             color: #F3F4F6;
         }
-        
+
         body.dark-mode .bg-card {
             background-color: rgba(24, 24, 27, 0.95);
             border: 1px solid rgba(75, 85, 99, 0.5);
         }
-        
+
         body.dark-mode .text-secondary {
             color: #9CA3AF;
         }
-        
+
         body.dark-mode .border-custom {
             border-color: rgba(75, 85, 99, 0.5);
         }
-        
+
         body.dark-mode header,
         body.dark-mode footer {
             border-color: rgba(75, 85, 99, 0.5);
         }
-        
+
         ::-webkit-scrollbar {
             width: 10px;
         }
-        
+
         ::-webkit-scrollbar-track {
             background: #E5E7EB;
         }
-        
+
         body.dark-mode ::-webkit-scrollbar-track {
             background: rgba(75, 85, 99, 0.5);
         }
-        
+
         ::-webkit-scrollbar-thumb {
             background: #4F46E5;
             border-radius: 5px;
         }
-        
+
         body.dark-mode ::-webkit-scrollbar-thumb {
             background: #6366F1;
         }
     </style>
 </head>
-<body class="dark-mode"> 
+<body class="dark-mode">
     <header id="main-header" class="sticky top-0 z-50 transition duration-300 border-b">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <a href="#" class="text-xl font-extrabold tracking-wider text-indigo-600">
@@ -116,7 +119,9 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <section id="home" class="py-20 md:py-32 text-center flex flex-col items-center justify-center">
-            <p class="text-lg text-indigo-600 mb-3 font-semibold">Welcome to the archive</p>
+            <p class="text-lg text-indigo-600 mb-3 font-semibold">
+                Welcome to the archive
+            </p>
             <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight mb-6">
                 Ideas Now <span class="text-indigo-600">Alive</span>.
             </h1>
@@ -130,7 +135,7 @@
 
         <section id="projects" class="py-16 md:py-24 border-t border-custom">
             <h2 id="projects-header" class="text-4xl font-bold mb-12 text-center text-indigo-600 opacity-0 transform translate-y-10 transition duration-700">Featured Projects</h2>
-            
+
             <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             </div>
         </section>
@@ -145,7 +150,7 @@
                 </div>
             </div>
         </section>
-        
+
     </main>
 
     <footer id="contact" class="border-t border-custom mt-16 py-12 opacity-0 transform translate-y-10 transition duration-700">
@@ -161,75 +166,123 @@
                     <span class="font-semibold text-lg">@onlysilentsecure</span>
                 </a>
             </div>
-            <p class="text-center text-sm mt-8 text-secondary">&copy; 2025 Ideas Now Alive. All rights reserved.</p>
+            <p class="text-center text-sm mt-8 text-secondary">
+                &copy; 2025 Ideas Now Alive. All rights reserved.
+            </p>
         </div>
     </footer>
 
     <script>
+        // --- PROJECT DATA: Minecraft projects are placed at the bottom ---
         const projectsData = [
-            {
-                title: "Skin Pack Maker 3.0",
-                description: "A utility for Minecraft Bedrock Edition that quickly packages multiple PNG skin files into a functional `.mcpack` file.",
-                demoLink: "skin-pack-maker-3.0.html", 
-                githubLink: "javascript:void(0)", 
-                iconPath: "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" 
-            },
+            // --- General Tools ---
             {
                 title: "QR Code Generator",
                 description: "A simple, offline-first tool to instantly generate QR codes from any text or URL, with a convenient download option.",
-                demoLink: "qr-gen.html", 
-                githubLink: "javascript:void(0)", 
-                iconPath: "M3 4a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm11 0a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1h-6a1 1 0 01-1-1V4zm-11 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zm11 0a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1h-6a1 1 0 01-1-1v-6z" 
+                demoLink: "qr-gen.html",
+                githubLink: "javascript:void(0)",
+                iconPath: "M3 4a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm11 0a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1h-6a1 1 0 01-1-1V4zm-11 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zm11 0a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1h-6a1 1 0 01-1-1v-6z"
             },
             {
                 title: "Message Repeater (Copy Tool)",
                 description: "A quick productivity tool to repeat any custom message hundreds of times with separators (like new lines) for fast pasting into chats.",
-                demoLink: "any time msgs.html", 
-                githubLink: "javascript:void(0)", 
-                iconPath: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.307-.946L3 21l1.394-3.485A9.863 9.863 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" 
+                demoLink: "any time msgs.html",
+                githubLink: "javascript:void(0)",
+                iconPath: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.307-.946L3 21l1.394-3.485A9.863 9.863 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+            },
+            {
+                title: "Birthday Tracker & Reminder",
+                description: "A client-side application to track and manage birthdays, showing days left, age, and trash management.",
+                demoLink: "birthday.html",
+                githubLink: "javascript:void(0)",
+                iconPath: "M8 7V3m8 4V3m-9 8h10m4 0a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h14z"
+            },
+
+            // --- Minecraft Tools ---
+            {
+                title: "Skin Pack Maker 3.0",
+                description: "A utility for Minecraft Bedrock Edition that quickly packages multiple PNG skin files into a functional `.mcpack` file.",
+                demoLink: "skin-pack-maker-3.0.html",
+                githubLink: "javascript:void(0)",
+                iconPath: "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
             },
             {
                 title: "Minecraft Circle Blueprint",
                 description: "An interactive, in-browser calculator that generates block-by-block plans for building perfect circles in Minecraft.",
-                demoLink: "text circle 1.html", 
-                githubLink: "javascript:void(0)", 
-                iconPath: "M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" 
-            }
-        ];
+                demoLink: "text circle 1.html",
+                githubLink: "javascript:void(0)",
+                iconPath: "M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"
+            },
+            {
+                title: "Minecraft Text Generator",
+                description: "A utility to generate colorful and formatted text using Minecraft's internal color codes for server messages or signs.",
+                demoLink: "minecraft-text.html",
+                githubLink: "javascript:void(0)",
+                iconPath: "M4 6h16M4 10h16M4 14h16M4 18h16"
+            }];
+        // -------------------------------------------------------------
+
 
         function renderProjects() {
             const container = document.getElementById('projects-container');
-            if (!container) return; 
+            if (!container) return;
+
+            let html = '';
+            projectsData.forEach(project => {
+                html += `
+                <div class="bg-card p-6 rounded-xl shadow-2xl transition duration-500 transform hover:scale-[1.02]">
+                <div class="mb-4">
+                <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="${project.iconPath}"></path>
+                </svg>
+                </div>
+                <h3 class="text-2xl font-semibold mb-3">${project.title}</h3>
+                <p class="mb-6 text-sm text-secondary">${project.description}</p>
+                <div class="flex space-x-4">
+                <a href="${project.demoLink}" target="_blank" class="text-indigo-600 hover:text-indigo-400 font-medium transition duration-300">View Live Demo &rarr;</a>
+                <a href="${project.githubLink}" target="_blank" class="text-secondary hover:text-indigo-600 transition duration-300">GitHub</a>
+                </div>
+                </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+
+        function renderProjects() {
+            const container = document.getElementById('projects-container');
+            if (!container) return;
 
             let html = '';
             projectsData.forEach(project => {
                 // ADDED: opacity-0 and translate-y-10 to hide and lower the card initially
                 // ADDED: transition duration-700 (or duration-500) for the animation speed
                 html += `
-                    <div class="project-card bg-card p-6 rounded-xl shadow-lg hover:shadow-indigo-500/50 transition duration-700 transform hover:scale-[1.02] opacity-0 translate-y-10">
-                        <div class="mb-4">
-                            <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="${project.iconPath}"></path>
-                            </svg>
-                        </div>
-                        <h3 class="text-2xl font-semibold mb-3">${project.title}</h3>
-                        <p class="mb-6 text-sm text-secondary">${project.description}</p>
-                        <div class="flex space-x-4">
-                            <a href="${project.demoLink}" target="_blank" class="text-indigo-600 hover:text-indigo-400 font-medium transition duration-300">View Live Demo &rarr;</a>
-                            <a href="${project.githubLink}" target="_blank" class="text-secondary hover:text-indigo-600 transition duration-300">GitHub</a>
-                        </div>
-                    </div>
+                <div class="project-card bg-card p-6 rounded-xl shadow-lg hover:shadow-indigo-500/50 transition duration-700 transform hover:scale-[1.02] opacity-0 translate-y-10">
+                <div class="mb-4">
+                <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="${project.iconPath}"></path>
+                </svg>
+                </div>
+                <h3 class="text-2xl font-semibold mb-3">${project.title}</h3>
+                <p class="mb-6 text-sm text-secondary">${project.description}</p>
+                <div class="flex space-x-4">
+                <a href="${project.demoLink}" target="_blank" class="text-indigo-600 hover:text-indigo-400 font-medium transition duration-300">GitHub</a>
+                <a href="${project.githubLink}" target="_blank" class="text-secondary hover:text-indigo-600 transition duration-300"></a>
+                </div>
+                </div>
                 `;
             });
             container.innerHTML = html;
             // IMPORTANT: Start observing the newly rendered cards
-            observeProjects(); 
+            observeProjects();
         }
 
         // --- NEW SCROLL REVEAL FUNCTION ---
         function observeProjects() {
             const observerOptions = {
-                root: null, // relative to the viewport
+                root: null,
+                // relative to the viewport
                 rootMargin: '0px',
                 threshold: 0.1 // Trigger when 10% of the element is visible
             };
@@ -242,7 +295,7 @@
                             entry.target.classList.remove('opacity-0', 'translate-y-10');
                             entry.target.classList.add('opacity-100', 'translate-y-0');
                         }, index * 100); // Stagger the animation by 100ms per item
-                        
+
                         // Stop observing after the animation is triggered
                         observer.unobserve(entry.target);
                     }
@@ -253,12 +306,12 @@
             const targets = [
                 ...document.querySelectorAll('.project-card'), // All project cards
                 document.getElementById('projects-header'), // Projects header
-                document.getElementById('about-content'),   // About content
-                document.getElementById('contact')         // Footer
+                document.getElementById('about-content'), // About content
+                document.getElementById('contact') // Footer
             ];
 
             targets.forEach(target => {
-                if(target) observer.observe(target);
+                if (target) observer.observe(target);
             });
         }
         // ------------------------------------
@@ -266,17 +319,17 @@
         // --- DYNAMIC HEADER FUNCTION (Kept from previous update) ---
         function handleScrollHeader() {
             const header = document.getElementById('main-header');
-            const scrollThreshold = 50; 
+            const scrollThreshold = 50;
 
             if (window.scrollY > scrollThreshold) {
                 header.classList.add('backdrop-blur-sm', 'shadow-xl');
-                header.style.backgroundColor = 'rgba(10, 10, 10, 0.9)'; 
+                header.style.backgroundColor = 'rgba(10, 10, 10, 0.9)';
             } else {
                 header.classList.remove('backdrop-blur-sm', 'shadow-xl');
                 header.style.backgroundColor = 'transparent';
             }
         }
-        
+
         window.addEventListener('scroll', handleScrollHeader);
 
 
@@ -298,7 +351,7 @@
 
         window.addEventListener('DOMContentLoaded', function() {
             renderProjects(); // Calls observeProjects internally
-            handleScrollHeader(); 
+            handleScrollHeader();
 
             // Smooth scroll setup
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -308,7 +361,9 @@
                     if (target && target !== '#') {
                         const element = document.querySelector(target);
                         if (element) {
-                            element.scrollIntoView({ behavior: 'smooth' });
+                            element.scrollIntoView({
+                                behavior: 'smooth'
+                            });
                         }
                     }
                 });
@@ -316,15 +371,17 @@
 
             // --- HERO ENTRANCE ANIMATION LOGIC (Kept from previous update) ---
             const heroElements = document.querySelectorAll('#home > *');
-            heroElements.forEach((el, index) => {
+            heroElements.forEach((el,
+                index) => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(20px)';
-                
+
                 setTimeout(() => {
                     el.style.transition = 'opacity 0.7s ease-out, transform 0.7s ease-out';
                     el.style.opacity = '1';
                     el.style.transform = 'translateY(0)';
-                }, 100 * index + 200); 
+                },
+                    100 * index + 200);
             });
             // ------------------------------------
         });
