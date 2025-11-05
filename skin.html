@@ -6,192 +6,193 @@
   <title>Minecraft Skin Pack Maker</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
-     /* ====== THEME COLORS ====== */
-body {
-  --color-bg-primary: #FFFFFF;
-  --color-bg-secondary: #F9FAFB;
-  --color-text-primary: #111827;
-  --color-text-secondary: #6B7280;
-  --color-primary: #4F46E5;
-  --color-border: #E5E7EB;
-  background: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-body[data-theme="dark"] {
-  --color-bg-primary: #0A0A0A;
-  --color-bg-secondary: #18181B;
-  --color-text-primary: #F3F4F6;
-  --color-text-secondary: #9CA3AF;
-  --color-primary: #6366F1;
-  --color-border: #27272A;
-}
+    /* ====== THEME COLORS ====== */
+    body {
+      --color-bg-primary: #FFFFFF;
+      --color-bg-secondary: #F9FAFB;
+      --color-text-primary: #111827;
+      --color-text-secondary: #6B7280;
+      --color-primary: #4F46E5;
+      --color-border: #E5E7EB;
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    body[data-theme="dark"] {
+      --color-bg-primary: #0A0A0A;
+      --color-bg-secondary: #18181B;
+      --color-text-primary: #F3F4F6;
+      --color-text-secondary: #9CA3AF;
+      --color-primary: #6366F1;
+      --color-border: #27272A;
+    }
 
-/* ====== HEADER ====== */
-header {
-  background: var(--color-bg-secondary);
-  border-bottom: 1px solid var(--color-border);
-  padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-.header-title {
-  color: var(--color-primary);
-  font-weight: 700;
-  font-size: 20px;
-}
-.back-btn {
-  background: var(--color-primary);
-  color: #fff;
-  text-decoration: none;
-  padding: 8px 15px;
-  border-radius: 6px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  transition: 0.2s;
-}
-.back-btn:hover { opacity: 0.85; }
+    /* ====== HEADER ====== */
+    header {
+      background: var(--color-bg-secondary);
+      border-bottom: 1px solid var(--color-border);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .header-title {
+      color: var(--color-primary);
+      font-weight: 700;
+      font-size: 20px;
+    }
+    .back-btn {
+      background: var(--color-primary);
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: 0.2s;
+    }
+    .back-btn:hover { opacity: 0.85; }
 
-/* ====== MAIN ====== */
-main {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  padding: 40px 20px;
-  background: var(--color-bg-primary);
-}
-.container {
-  width: 100%;
-  max-width: 600px;
-  background: var(--color-bg-secondary);
-  padding: 25px;
-  border-radius: 12px;
-  border: 1px solid var(--color-border);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: var(--color-text-primary);
-}
+    /* ====== MAIN ====== */
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      background: var(--color-bg-primary);
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background: var(--color-bg-secondary);
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--color-text-primary);
+    }
 
-/* ====== INPUTS & BUTTONS ====== */
-.preview {
-  width: 128px;
-  height: 128px;
-  background: #333;
-  margin: 10px auto;
-  background-size: cover;
-  background-position: center;
-  border: 2px solid var(--color-border);
-  border-radius: 8px;
-}
-input[type="file"], input[type="text"], button {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 6px;
-  border: none;
-  font-size: 15px;
-}
-input[type="file"], input[type="text"] {
-  background: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  border: 1px solid var(--color-border);
-}
+    /* ====== INPUTS & BUTTONS ====== */
+    .preview {
+      width: 128px;
+      height: 128px;
+      background: #333;
+      margin: 10px auto;
+      background-size: cover;
+      background-position: center;
+      border: 2px solid var(--color-border);
+      border-radius: 8px;
+    }
+    input[type="file"], input[type="text"], button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: none;
+      font-size: 15px;
+    }
+    input[type="file"], input[type="text"] {
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      border: 1px solid var(--color-border);
+    }
 
-/* ====== CUSTOM FILE BUTTON ====== */
-.custom-file-upload {
-  background: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  display: block;
-  text-align: center;
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 15px;
-  border: 1px solid var(--color-border);
-  transition: background 0.3s;
-}
-.custom-file-upload:hover { background: var(--color-border); }
-input[type="file"] { display: none !important; }
+    /* ====== CUSTOM FILE BUTTON ====== */
+    .custom-file-upload {
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      display: block;
+      text-align: center;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+      border: 1px solid var(--color-border);
+      transition: background 0.3s;
+    }
+    .custom-file-upload:hover { background: var(--color-border); }
+    input[type="file"] { display: none !important; }
 
-button {
-  background: var(--color-primary);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  border: none;
-  border-radius: 6px;
-  transition: opacity 0.2s;
-}
-button:hover { opacity: 0.9; }
+    button {
+      background: var(--color-primary);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      transition: opacity 0.2s;
+    }
+    button:hover { opacity: 0.9; }
 
-/* ====== SKIN BLOCKS ====== */
-.skin-block {
-  background: var(--color-bg-primary);
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 20px;
-}
-.icon { margin-right: 8px; }
+    /* ====== SKIN BLOCKS ====== */
+    .skin-block {
+      background: var(--color-bg-primary);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .icon { margin-right: 8px; }
 
-/* ====== LOCKED DISPLAY ====== */
-.skin-name-display {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--color-bg-secondary);
-  color: var(--color-text-primary);
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 6px;
-  border: 1px solid var(--color-border);
-  font-size: 15px;
-}
-.skin-name-text {
-  flex-grow: 1;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.edit-icon {
-  cursor: pointer;
-  color: var(--color-primary);
-  margin-left: 10px;
-  font-size: 1.1em;
-}
-.hidden { display: none !important; }
+    /* ====== LOCKED DISPLAY ====== */
+    .skin-name-display {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--color-bg-secondary);
+      color: var(--color-text-primary);
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid var(--color-border);
+      font-size: 15px;
+    }
+    .skin-name-text {
+      flex-grow: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .edit-icon {
+      cursor: pointer;
+      color: var(--color-primary);
+      margin-left: 10px;
+      font-size: 1.1em;
+    }
+    .hidden { display: none !important; }
 
-/* ====== FOOTER ====== */
-footer {
-  background: var(--color-bg-secondary);
-  border-top: 1px solid var(--color-border);
-  padding: 12px;
-  text-align: center;
-  font-size: 12px;
-  color: var(--color-text-secondary);
-  margin-top: auto;
-  }
+    /* ====== FOOTER ====== */
+    footer {
+      background: var(--color-bg-secondary);
+      border-top: 1px solid var(--color-border);
+      padding: 12px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      margin-top: auto;
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="header-title">Minecraft Skin Pack Maker</div>
     <a href="https://meow-me7.github.io/myweb/mywebpro.html" class="back-btn">
-      Back
+      <i class="fas fa-arrow-left"></i> Back
     </a>
   </header>
 
@@ -399,7 +400,7 @@ footer {
   }
 
   // Auto-apply system dark mode
-  (()=>{
+  (() => {
     const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
     if(prefersDark)document.body.setAttribute('data-theme','dark');
   })();
