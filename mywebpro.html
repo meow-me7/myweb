@@ -98,7 +98,7 @@
     </style>
 </head>
 <body class="dark-mode"> 
-    <header class="sticky top-0 z-50 backdrop-blur-sm shadow-xl border-b">
+    <header id="main-header" class="sticky top-0 z-50 transition duration-300 border-b">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <a href="#" class="text-xl font-extrabold tracking-wider text-indigo-600">
                 @onlysilentsecure
@@ -129,14 +129,14 @@
         </section>
 
         <section id="projects" class="py-16 md:py-24 border-t border-custom">
-            <h2 class="text-4xl font-bold mb-12 text-center text-indigo-600">Featured Projects</h2>
+            <h2 id="projects-header" class="text-4xl font-bold mb-12 text-center text-indigo-600 opacity-0 transform translate-y-10 transition duration-700">Featured Projects</h2>
             
             <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             </div>
         </section>
 
         <section id="about" class="py-16 md:py-24 border-t border-custom">
-            <div class="max-w-4xl mx-auto">
+            <div id="about-content" class="max-w-4xl mx-auto opacity-0 transform translate-y-10 transition duration-700">
                 <h2 class="text-4xl font-bold mb-6 text-center text-indigo-600">A Bit About Me</h2>
                 <div class="bg-card p-8 rounded-xl shadow-2xl">
                     <p class="text-lg text-center text-secondary">
@@ -148,7 +148,7 @@
         
     </main>
 
-    <footer id="contact" class="border-t border-custom mt-16 py-12">
+    <footer id="contact" class="border-t border-custom mt-16 py-12 opacity-0 transform translate-y-10 transition duration-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl font-bold mb-6 text-center text-indigo-600">Connect With Me</h2>
             <div class="flex justify-center items-center">
@@ -203,8 +203,10 @@
 
             let html = '';
             projectsData.forEach(project => {
+                // ADDED: opacity-0 and translate-y-10 to hide and lower the card initially
+                // ADDED: transition duration-700 (or duration-500) for the animation speed
                 html += `
-                    <div class="bg-card p-6 rounded-xl shadow-2xl transition duration-500 transform hover:scale-[1.02]">
+                    <div class="project-card bg-card p-6 rounded-xl shadow-lg hover:shadow-indigo-500/50 transition duration-700 transform hover:scale-[1.02] opacity-0 translate-y-10">
                         <div class="mb-4">
                             <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="${project.iconPath}"></path>
@@ -220,31 +222,73 @@
                 `;
             });
             container.innerHTML = html;
+            // IMPORTANT: Start observing the newly rendered cards
+            observeProjects(); 
         }
 
-        // --- Security / Obfuscation Logic ---
+        // --- NEW SCROLL REVEAL FUNCTION ---
+        function observeProjects() {
+            const observerOptions = {
+                root: null, // relative to the viewport
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            };
 
-        // Disable F12 Key and other keyboard shortcuts
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        // Apply animation with staggered delay
+                        setTimeout(() => {
+                            entry.target.classList.remove('opacity-0', 'translate-y-10');
+                            entry.target.classList.add('opacity-100', 'translate-y-0');
+                        }, index * 100); // Stagger the animation by 100ms per item
+                        
+                        // Stop observing after the animation is triggered
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Get all elements we want to animate on scroll
+            const targets = [
+                ...document.querySelectorAll('.project-card'), // All project cards
+                document.getElementById('projects-header'), // Projects header
+                document.getElementById('about-content'),   // About content
+                document.getElementById('contact')         // Footer
+            ];
+
+            targets.forEach(target => {
+                if(target) observer.observe(target);
+            });
+        }
+        // ------------------------------------
+
+        // --- DYNAMIC HEADER FUNCTION (Kept from previous update) ---
+        function handleScrollHeader() {
+            const header = document.getElementById('main-header');
+            const scrollThreshold = 50; 
+
+            if (window.scrollY > scrollThreshold) {
+                header.classList.add('backdrop-blur-sm', 'shadow-xl');
+                header.style.backgroundColor = 'rgba(10, 10, 10, 0.9)'; 
+            } else {
+                header.classList.remove('backdrop-blur-sm', 'shadow-xl');
+                header.style.backgroundColor = 'transparent';
+            }
+        }
+        
+        window.addEventListener('scroll', handleScrollHeader);
+
+
+        // --- Security / Obfuscation Logic (Kept from original) ---
+
         document.onkeydown = function(e) {
-            // Disable F12
-            if (e.key === 'F12' || e.keyCode === 123) {
-                return false;
-            }
-            // Disable Ctrl+Shift+I (Inspect Element)
-            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
-                return false;
-            }
-            // Disable Ctrl+Shift+C (Inspect Element)
-             if (e.ctrlKey && e.shiftKey && e.key === 'C') {
-                return false;
-            }
-            // Disable Ctrl+Shift+J (Console)
-            if (e.ctrlKey && e.shiftKey && e.key === 'J') {
-                return false;
-            }
+            if (e.key === 'F12' || e.keyCode === 123) return false;
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') return false;
+            if (e.ctrlKey && e.shiftKey && e.key === 'C') return false;
+            if (e.ctrlKey && e.shiftKey && e.key === 'J') return false;
         };
 
-        // Disable Right-Click Context Menu
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
         });
@@ -253,8 +297,9 @@
         // --- Initialization ---
 
         window.addEventListener('DOMContentLoaded', function() {
-            renderProjects();
-            
+            renderProjects(); // Calls observeProjects internally
+            handleScrollHeader(); 
+
             // Smooth scroll setup
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
@@ -268,6 +313,20 @@
                     }
                 });
             });
+
+            // --- HERO ENTRANCE ANIMATION LOGIC (Kept from previous update) ---
+            const heroElements = document.querySelectorAll('#home > *');
+            heroElements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.7s ease-out, transform 0.7s ease-out';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 * index + 200); 
+            });
+            // ------------------------------------
         });
     </script>
 </body>
