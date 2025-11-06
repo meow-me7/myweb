@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minecraft Color Text Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+          font-family: 'Poppins', sans-serif;
+          background: #0d0d0d;
+          color: #E5E7EB;
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+        }
+        
+        /* ===== HEADER ===== */
+        header {
+          background: #1a1a1f;
+          padding: 15px 20px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid #2c2c2c;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.6);
+        }
+        .header-title {
+          color: #6366F1;
+          font-weight: 700;
+          font-size: 1.2rem;
+        }
+        .container .titl {
+          animation: titl 2s ease-in-out infinite;
+        }
+        .back-btn {
+          text-decoration: none;
+          background: #6366F1;
+          color: #fff;
+          padding: 8px 16px;
+          border-radius: 6px;
+          font-weight: 600;
+          transition: all 0.25s ease;
+        }
+        .back-btn:hover {
+          background: #4F46E5;
+          box-shadow: 0 0 8px rgba(99,102,241,0.6);
+          transform: translateY(-1px);
+        }
+        
+        /* ===== MAIN ===== */
+        main {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          padding: 40px 15px;
+        }
+        .container {
+          background: #1a1a1f;
+          border: 1px solid #2c2c2c;
+          border-radius: 10px;
+          padding: 30px;
+          width: 100%;
+          max-width: 800px;
+          box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        }
+        h1 {
+          text-align: center;
+          color: #818CF8;
+          font-size: 1.8rem;
+          margin-bottom: 30px;
+          font-weight: 700;
+        }
+        label {
+          display: block;
+          color: #cfcfcf;
+          font-size: 0.9rem;
+          margin-bottom: 8px;
+          font-weight: 600;
+        }
+        #textInput {
+          width: 100%;
+          padding: 12px;
+          border: 1px solid #333;
+          background: #121214;
+          color: #f0f0f0;
+          font-size: 1rem;
+          border-radius: 6px;
+          margin-bottom: 25px;
+          transition: 0.25s;
+        }
+        #textInput:focus { border-color: #6366F1; outline: none; }
+        
+        /* COLOR BUTTONS */
+        .color-palette {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+          gap: 10px;
+          margin-bottom: 25px;
+        }
+        .color-btn {
+          border: 1px solid #333;
+          background: #121214;
+          color: #E5E7EB;
+          padding: 10px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 0.8rem;
+          transition: 0.25s;
+        }
+        .color-btn:hover {
+          background: #23232b;
+          border-color: #6366F1;
+          transform: translateY(-2px);
+        }
+        
+        /* PREVIEW */
+        .preview-section {
+          border: 1px solid #333;
+          background: #121214;
+          padding: 10px 20px;
+          border-radius: 6px;
+          min-height: 100px;
+          font-size: 1rem;
+          line-height: 1.8;
+          margin-bottom: 20px;
+          color: #ccc;
+        }
+        
+        /* BUTTONS */
+        .button-group {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          justify-content: center;
+        }
+        .action-btn {
+          background: #6366F1;
+          color: #fff;
+          border: none;
+          padding: 12px 25px;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: 0.25s;
+          flex: 1;
+          min-width: 150px;
+        }
+        .action-btn:hover {
+          background: #4F46E5;
+          box-shadow: 0 0 10px rgba(99,102,241,0.6);
+          transform: translateY(-2px);
+        }
+        .clear-btn {
+          background: #EF4444;
+        }
+        .clear-btn:hover {
+          background: #DC2626;
+        }
+        
+        /* FOOTER */
+        footer {
+          background: #1a1a1f;
+          border-top: 1px solid #2c2c2c;
+          color: #9CA3AF;
+          text-align: center;
+          padding: 12px;
+          font-size: 0.85rem;
+        }
+        
+        /* NOTIFICATION */
+        .notification {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: #6366F1;
+          color: #fff;
+          padding: 12px 18px;
+          border-radius: 6px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          opacity: 0;
+          transform: translateX(300px);
+          transition: all 0.3s ease;
+          z-index: 1000;
+        }
+        .notification.show {
+          opacity: 1;
+          transform: translateX(0);
+        }
+        /* MINECRAFT COLORS */  
+        .mc-0 { color: #000000; } 
+            .mc-1 { color: #0000AA; }  
+        .mc-2 { color: #00AA00; } .mc-3 { color: #00AAAA; }  
+        .mc-4 { color: #AA0000; } .mc-5 { color: #AA00AA; }  
+        .mc-6 { color: #FFAA00; } .mc-7 { color: #AAAAAA; }  
+        .mc-8 { color: #555555; } .mc-9 { color: #5555FF; }  
+        .mc-a { color: #55FF55; } .mc-b { color: #55FFFF; }  
+        .mc-c { color: #FF5555; } .mc-d { color: #FF55FF; }  
+        .mc-e { color: #FFFF55; } .mc-f { color: #FFFFFF; }
+        @keyframes magic {  
+          0% { opacity: 0.4; transform: scale(1) rotate(0deg); }  
+          50% { opacity: 1; transform: scale(1.1) rotate(2deg); }  
+          100% { opacity: 0.4; transform: scale(1) rotate(-2deg); }  
+        }
+        @keyframes titl {
+          0%   { transform: scale(1);   opacity: 0.95; }
+          50%  { transform: scale(1.05); opacity: 1; }
+          100% { transform: scale(1);   opacity: 0.95; }
+        }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-title">Text Generator</div>
+    <a href="https://meow-me7.github.io/myweb/mywebpro.html" class="back-btn">Back</a>
+  </header>
+
+  <main>
+    <div class="container">
+      <h1 class="titl">MINECRAFT TEXT GENERATOR</h1>
+
+      <label>ENTER YOUR TEXT:</label>
+      <input type="text" id="textInput" placeholder="Type something..." />
+
+      <label>SELECT COLOR:</label>
+      <div class="color-palette" id="colorPalette"></div>
+
+      <label>SELECT EFFECT(S):</label>
+      <div class="color-palette" id="effectsPalette"></div>
+
+      <label>PREVIEW:</label>
+      <div class="preview-section" id="preview">Your text will appear here...</div>
+
+      <div class="button-group">
+        <button class="action-btn" onclick="copyToClipboard()">COPY CODE</button>
+        <button class="action-btn clear-btn" onclick="clearAll()">CLEAR</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>&copy; 2025 Ideas Now Alive. All rights reserved.</footer>
+
+  <div class="notification" id="notification">Copied to clipboard!</div>
+
+  <script>
+    const colors = [
+      { code: '§0', name: 'Black', class: 'mc-0' }, { code: '§1', name: 'Blue', class: 'mc-1' },
+      { code: '§2', name: 'Green', class: 'mc-2' }, { code: '§3', name: 'Aqua', class: 'mc-3' },
+      { code: '§4', name: 'Red', class: 'mc-4' }, { code: '§5', name: 'Purple', class: 'mc-5' },
+      { code: '§6', name: 'Gold', class: 'mc-6' }, { code: '§7', name: 'Gray', class: 'mc-7' },
+      { code: '§8', name: 'Dark Gray', class: 'mc-8' }, { code: '§9', name: 'Light Blue', class: 'mc-9' },
+      { code: '§a', name: 'Light Green', class: 'mc-a' }, { code: '§b', name: 'Cyan', class: 'mc-b' },
+      { code: '§c', name: 'Light Red', class: 'mc-c' }, { code: '§d', name: 'Pink', class: 'mc-d' },
+      { code: '§e', name: 'Yellow', class: 'mc-e' }, { code: '§f', name: 'White', class: 'mc-f' }
+    ];
+
+    const effects = [
+      { code: '§l', name: 'Bold', style: 'font-weight:bold;' },
+      { code: '§o', name: 'Italic', style: 'font-style:italic;' },
+      { code: '§n', name: 'Underline', style: 'text-decoration:underline;' },
+      { code: '§m', name: 'Strike', style: 'text-decoration:line-through;' },
+      { code: '§k', name: 'Magic', style: 'animation:magic 0.5s infinite alternate;' }
+    ];
+
+    let currentText = '';
+    let selectedColor = '';
+    let selectedEffects = [];
+
+    const colorPalette = document.getElementById('colorPalette');
+    const effectsPalette = document.getElementById('effectsPalette');
+    const textInput = document.getElementById('textInput');
+    const preview = document.getElementById('preview');
+
+    colors.forEach(color => {
+      const btn = document.createElement('button');
+      btn.className = `color-btn ${color.class}`;
+      btn.textContent = color.name;
+      btn.onclick = () => { selectedColor = color.code; updatePreview(); };
+      colorPalette.appendChild(btn);
+    });
+
+    effects.forEach(effect => {
+      const btn = document.createElement('button');
+      btn.className = 'color-btn';
+      btn.textContent = effect.name;
+      btn.onclick = () => toggleEffect(effect.code);
+      effectsPalette.appendChild(btn);
+    });
+
+    function toggleEffect(code) {
+      if (selectedEffects.includes(code)) {
+        selectedEffects = selectedEffects.filter(e => e !== code);
+      } else {
+        selectedEffects.push(code);
+      }
+      updatePreview();
+    }
+
+    textInput.addEventListener('input', updatePreview);
+
+    function updatePreview() {
+      const text = textInput.value || '';
+      let style = '';
+
+      selectedEffects.forEach(e => {
+        const eff = effects.find(x => x.code === e);
+        if (eff) style += eff.style;
+      });
+
+      const colorCode = selectedColor || '';
+      currentText = colorCode + selectedEffects.join('') + text;
+
+      const colorClass = colorCode ? 'mc-' + colorCode[1] : '';
+      preview.innerHTML = text
+        ? `<span class="${colorClass}" style="${style}">${text}</span>`
+        : 'Your text will appear here...';
+    }
+
+    function copyToClipboard() {
+      if (!currentText) return showNotification('Nothing to copy!');
+      navigator.clipboard.writeText(currentText).then(() => {
+        showNotification('Copied to clipboard!');
+      }).catch(() => {
+        const textarea = document.createElement('textarea');
+        textarea.value = currentText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        textarea.remove();
+        showNotification('Copied (offline mode)!');
+      });
+    }
+
+    function clearAll() {
+      textInput.value = '';
+      selectedColor = '';
+      selectedEffects = [];
+      currentText = '';
+      preview.innerHTML = 'Your text will appear here...';
+    }
+
+    function showNotification(msg) {
+      const note = document.getElementById('notification');
+      note.textContent = msg;
+      note.classList.add('show');
+      setTimeout(() => note.classList.remove('show'), 2000);
+    }
+  </script>
+</body>
+</html>
