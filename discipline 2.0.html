@@ -1,0 +1,223 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dopamine Reset Tracker</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #0e0e0e;
+      color: #e6e6e6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px;
+    }
+    h1, h2, h3 {
+      color: #00ffb3;
+    }
+    .card {
+      background: #1a1a1a;
+      border-radius: 16px;
+      padding: 20px;
+      margin: 15px 0;
+      width: 90%;
+      max-width: 420px;
+      box-shadow: 0 0 12px rgba(0, 255, 179, 0.2);
+    }
+    label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 8px 0;
+      font-size: 1rem;
+    }
+    input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      accent-color: #00ffb3;
+    }
+    .progress {
+      height: 14px;
+      background: #333;
+      border-radius: 7px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .bar {
+      height: 100%;
+      background: linear-gradient(90deg, #00ffb3, #00997a);
+      width: 0%;
+      transition: width 0.4s;
+    }
+    .streak {
+      margin-top: 10px;
+      font-weight: 600;
+      color: #00ffb3;
+    }
+    button {
+      margin-top: 20px;
+      background: #00ffb3;
+      color: #0e0e0e;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #00d49e;
+    }
+    #guidePage { display: none; }
+    .back-btn { margin-top: 20px; background: #222; color: #00ffb3; }
+  </style>
+</head>
+<body>
+  <h1>Dopamine Reset Tracker</h1>  <div id="trackerPage">
+    <div class="card">
+      <h2>Daily Tasks</h2>
+      <label><span>📱 Screen time under control</span><input type="checkbox" id="screen"></label>
+      <label><span>💤 Proper sleep</span><input type="checkbox" id="sleep"></label>
+      <label><span>🚫 No masturbation / porn</span><input type="checkbox" id="masturbation"></label>
+      <label><span>🥗 No junk food</span><input type="checkbox" id="junk"></label>
+      <label><span>🏃‍♂️ Walk / skill practice</span><input type="checkbox" id="skill"></label><div class="progress"><div class="bar" id="progressBar"></div></div>
+  <div class="streak" id="streak">🔥 Streak: 0 days</div>
+
+  <button id="save">Save Progress</button>
+  <button id="guideBtn">Open Dopamine Reset Plan</button>
+</div>
+
+  </div>  <div id="guidePage">
+    <div class="card">
+      <h2>Dopamine Reset Plan</h2>
+      <h3>🧠 Current Reality</h3>
+      <ul>
+        <li>Daily 8–14 hours phone use</li>
+        <li>नींद पूरी नहीं होती, सुबह थकावट</li>
+        <li>Eyes blur, focus weak</li>
+        <li>Overthinking, demotivation, masturbation habit</li>
+        <li>Feeling dull, connection weak, math/skill confidence low</li>
+      </ul><h3>🎯 Goals</h3>
+  <ul>
+    <li>Mind ko reset karna</li>
+    <li>Dopamine control me lana</li>
+    <li>Real thrill aur energy wapas lana</li>
+  </ul>
+
+  <h3>⚙️ 3-Step Plan</h3>
+  <p><strong>Step 1: Real Thrill Build Kar</strong><br>
+  - 20 min daily walk bina earphones ke<br>
+  - Typing speed ya photo editing skill practice<br>
+  - Light bodyweight workout (push-ups, planks)</p>
+
+  <p><strong>Step 2: Screen Time Control</strong><br>
+  - Din 1–3: Max 10h<br>
+  - Din 4–7: Max 8h<br>
+  - Din 8–14: Max 6h<br>
+  Timer lagao, aur limit hit hone ke baad phone se physically door raho.</p>
+
+  <p><strong>Step 3: Dopamine Flood Reduce</strong><br>
+  3 main triggers:
+  <ul>
+    <li>Phone (social scroll)</li>
+    <li>Porn / masturbation</li>
+    <li>Junk food / sugar</li>
+  </ul>
+  Ek trigger choose kar 7 din ke liye aur usse control kar. Baaki 2 normal rakho.</p>
+
+  <h3>💪 Control Ka Logic</h3>
+  <ul>
+    <li>Temptation visible mat rakh — app hide kar</li>
+    <li>Urge aaye → 10 push-ups ya cold water face wash</li>
+    <li>Night me phone dur rakh</li>
+    <li>Morning ritual: screen mat khol, paani piyo aur walk pe nikal jao</li>
+  </ul>
+
+  <button class="back-btn" id="backBtn">Back to Tracker</button>
+</div>
+
+  </div>  <script>
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const progressBar = document.getElementById('progressBar');
+    const streakDisplay = document.getElementById('streak');
+    const saveBtn = document.getElementById('save');
+    const guideBtn = document.getElementById('guideBtn');
+    const backBtn = document.getElementById('backBtn');
+    const trackerPage = document.getElementById('trackerPage');
+    const guidePage = document.getElementById('guidePage');
+
+    let streak = localStorage.getItem('streak') ? parseInt(localStorage.getItem('streak')) : 0;
+    let lastSavedDate = localStorage.getItem('lastDate');
+
+    window.onload = () => {
+      const saved = JSON.parse(localStorage.getItem('trackerState')) || {};
+      checkboxes.forEach(cb => cb.checked = saved[cb.id] || false);
+      updateProgress();
+    };
+
+    function updateProgress() {
+      const total = checkboxes.length;
+      const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
+      const percent = (completed / total) * 100;
+      progressBar.style.width = `${percent}%`;
+    }
+
+    checkboxes.forEach(cb => cb.addEventListener('change', updateProgress));
+
+    saveBtn.addEventListener('click', () => {
+      const today = new Date().toDateString();
+      const allDone = Array.from(checkboxes).every(cb => cb.checked);
+      const state = {};
+      checkboxes.forEach(cb => state[cb.id] = cb.checked);
+      localStorage.setItem('trackerState', JSON.stringify(state));
+
+      if (allDone && lastSavedDate !== today) {
+        streak++;
+        lastSavedDate = today;
+        localStorage.setItem('lastDate', today);
+        localStorage.setItem('streak', streak);
+      }
+
+      streakDisplay.textContent = `🔥 Streak: ${streak} days`;
+      alert('Progress saved!');
+    });
+
+    streakDisplay.textContent = `🔥 Streak: ${streak} days`;
+
+    guideBtn.addEventListener('click', () => {
+      trackerPage.style.display = 'none';
+      guidePage.style.display = 'block';
+    });
+
+    backBtn.addEventListener('click', () => {
+      guidePage.style.display = 'none';
+      trackerPage.style.display = 'block';
+    });
+
+    // Notifications
+    if ('Notification' in window) {
+      Notification.requestPermission().then(perm => {
+        if (perm === 'granted') {
+          const scheduleNotifications = () => {
+            const times = [9, 15, 19];
+            times.forEach(hour => {
+              const now = new Date();
+              const notifyTime = new Date();
+              notifyTime.setHours(hour, 0, 0, 0);
+              if (notifyTime < now) notifyTime.setDate(notifyTime.getDate() + 1);
+
+              const delay = notifyTime - now;
+              setTimeout(() => {
+                new Notification('Dopamine Check 🔔', {
+                  body: 'Time to update your dopamine tracker!',
+                  icon: 'https://cdn-icons-png.flaticon.com/512/564/564619.png'
+                });
+              }, delay);
+            });
+          };
+          scheduleNotifications();
+        }
+      });
+    }
+  </script></body>
+</html>
