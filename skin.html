@@ -6,91 +6,41 @@
   <title>Minecraft Skin Pack Maker</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
-    /* ====== THEME COLORS (same as mywebpro.html) ====== */
+    /* Global Reset and Skin Pack Maker Styles (Original) */
     * {
-        box-sizing: border-box;
+      box-sizing: border-box;
     }
     body {
-      --color-bg-primary: #FFFFFF;
-      --color-bg-secondary: #F9FAFB;
-      --color-text-primary: #111827;
-      --color-text-secondary: #6B7280;
-      --color-primary: #4F46E5;
-      --color-border: #E5E7EB;
-      background: var(--color-bg-primary);
-      color: var(--color-text-primary);
       font-family: 'Segoe UI', sans-serif;
+      background: #121212;
+      color: #e0e0e0;
+      /* Removed: display: flex; align-items: center; to allow full-width header/footer */
+      padding: 0; /* Changed from 20px */
       margin: 0;
-      padding: 0;
+      min-height: 100vh; /* Ensure body takes full height */
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
     }
-    body[data-theme="dark"] {
-      --color-bg-primary: #0A0A0A;
-      --color-bg-secondary: rgba(24, 24, 27, 0.95);
-      --color-text-primary: #F3F4F6;
-      --color-text-secondary: #9CA3AF;
-      --color-primary: #6366F1;
-      --color-border: rgba(75, 85, 99, 0.5);
-      background: var(--color-bg-primary);
-      color: var(--color-text-primary);
-    }
-
-    /* ====== HEADER ====== */
-    header {
-      background: var(--color-bg-secondary);
-      border-bottom: 1px solid var(--color-border);
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .header-title {
-      color: var(--color-primary);
-      font-weight: 700;
-      font-size: 20px;
-    }
-    .back-btn {
-      background: var(--color-primary);
-      color: #fff;
-      text-decoration: none;
-      padding: 8px 15px;
-      border-radius: 6px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: 0.2s;
-    }
-    .back-btn:hover { opacity: 0.85; }
-
-    /* ====== MAIN ====== */
-    main {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      padding: 20px;
+    .main-content-wrapper {
+        flex-grow: 1; /* Pushes the footer down */
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* Align content to the top of the viewport */
+        padding: 20px 10px;
     }
     .container {
       width: 100%;
       max-width: 600px;
-      background: var(--color-bg-secondary);
+      background: #1f1f1f;
       padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    }
-    input, textarea, select, button {
-       max-width: 100%;
+      border-radius: 5px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
     }
     h2 {
       text-align: center;
       margin-bottom: 20px;
-      color: var(--color-text-primary);
+      color: #f4f4f4;
     }
-
-    /* ====== INPUTS & BUTTONS ====== */
     .preview {
       width: 128px;
       height: 128px;
@@ -98,71 +48,71 @@
       margin: 10px auto;
       background-size: cover;
       background-position: center;
-      border: 2px solid var(--color-border);
-      border-radius: 8px;
+      border: 2px solid #555;
+      border-radius: 5px;
     }
     input[type="file"], input[type="text"], button {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
-      border-radius: 6px;
+      border-radius: 5px;
       border: none;
       font-size: 15px;
     }
     input[type="file"], input[type="text"] {
-      background: var(--color-bg-primary);
-      color: var(--color-text-primary);
-      border: 1px solid var(--color-border);
+      background: #2a2a2a;
+      color: #fff;
     }
-
-    /* ====== CUSTOM FILE BUTTON ====== */
+    /* Style for the custom file selector button */
     .custom-file-upload {
-      background: var(--color-bg-primary);
-      color: var(--color-text-primary);
+      background: #2a2a2a;
+      color: #fff;
       display: block;
       text-align: center;
       padding: 12px;
       margin: 10px 0;
-      border-radius: 6px;
+      border-radius: 5px;
       cursor: pointer;
       font-size: 15px;
-      border: 1px solid var(--color-border);
       transition: background 0.3s;
     }
     .custom-file-upload:hover {
-      background: var(--color-border);
+        background: #3a3a3a;
     }
-    input[type="file"] { display: none !important; }
-
+    /* Hide the default file input */
+    input[type="file"] {
+        display: none !important;
+    }
     button {
-      background: var(--color-primary);
+      background: #3C43CC;
       color: white;
       font-weight: bold;
       cursor: pointer;
+      border-radius: 5px;
     }
-    button:hover { opacity: 0.9; }
-
-    /* ====== SKIN BLOCKS ====== */
+    button:hover {
+      background: #0056b3;
+    }
     .skin-block {
-      background: var(--color-bg-primary);
-      border: 1px solid var(--color-border);
-      border-radius: 10px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 5px;
       padding: 15px;
       margin-bottom: 15px;
     }
-    .icon { margin-right: 8px; }
-
-    /* ====== LOCKED DISPLAY ====== */
+    .icon {
+      margin-right: 8px;
+    }
+    /* Styles for locked/display mode */
     .skin-name-display {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--color-bg-secondary);
-      color: var(--color-text-primary);
+      background: #2a2a2a;
+      color: #fff;
       padding: 12px;
       margin: 10px 0;
-      border-radius: 6px;
-      border: 1px solid var(--color-border);
+      border-radius: 5px;
       font-size: 15px;
     }
     .skin-name-text {
@@ -173,32 +123,124 @@
     }
     .edit-icon {
       cursor: pointer;
-      color: var(--color-primary);
+      color: #007BFF;
       margin-left: 10px;
       font-size: 1.1em;
     }
-    .hidden { display: none !important; }
+    .hidden {
+      display: none !important;
+    }
+    .file-locked {
+        /* reserved */
+    }
 
-    /* ====== FOOTER ====== */
-    footer {
-      background: var(--color-bg-secondary);
-      border-top: 1px solid var(--color-border);
-      padding: 12px;
+    /* --- NEW HEADER CSS (From website.html) --- */
+
+    #main-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      transition: all 0.3s ease;
+      border-bottom: 1px solid rgba(75, 85, 99, 0.5); /* Custom border color */
+      background-color: transparent; /* Default transparent */
+      color: #F3F4F6;
+    }
+    .header-content {
+      max-width: 1120px; /* 7xl equivalent */
+      margin-left: auto;
+      margin-right: auto;
+      padding: 16px 10px; /* py-4 px-4 */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 20px; /* text-xl */
+      font-weight: 800; /* font-extrabold */
+      letter-spacing: 0.05em; /* tracking-wider */
+      color: #4F46E5; /* indigo-600 */
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 16px; /* space-x-4 */
+      align-items: center;
+    }
+    .nav-link {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.3s ease, background-color 0.3s ease;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      display: none; /* hidden sm:inline */
+    }
+    /* For screens larger than a small breakpoint (sm) */
+    @media (min-width: 640px) { 
+        .nav-link {
+            display: inline-block;
+        }
+    }
+    .nav-link:hover {
+      color: #4F46E5; /* hover:text-indigo-600 */
+    }
+    .back-button {
+      background: #4F46E5; /* bg-indigo-600 */
+      color: white;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      text-decoration: none;
+    }
+    .back-button:hover {
+      background: #4338CA; /* hover:bg-indigo-700 */
+    }
+
+    /* Scroll State Header Styles */
+    .header-scrolled {
+        backdrop-filter: blur(4px); /* backdrop-blur-sm */
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+        background-color: rgba(18, 18, 18, 0.9); /* Opaque background for contrast */
+    }
+
+    .footer-content {
+      max-width: 1120px; /* 7xl equivalent */
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 16px; /* px-4 */
       text-align: center;
-      font-size: 12px;
-      color: var(--color-text-secondary);
+    }
+    .footer-heading {
+      font-size: 24px; /* text-3xl */
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: #4F46E5; /* indigo-600 */
+    }
+    .copyright {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 32px;
+      color: #9CA3AF; /* text-secondary equivalent */
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="header-title">Minecraft Skin Pack Maker</div>
-    <a href="https://meow-me7.github.io/myweb/mywebpro.html" class="back-btn">
-      Back
-    </a>
+  <header id="main-header">
+    <div class="header-content">
+      <a href="#" class="logo">
+          Skin Pack Maker
+      </a>
+      <nav class="nav-links">
+        <a href="https://meow-me7.github.io/myweb/mywebpro.html" class="back-button">
+          Back
+        </a>
+      </nav>
+    </div>
   </header>
-
-  <main>
+  <div class="main-content-wrapper">
     <div class="container">
       <h2><i class="fas fa-cube icon"></i> Minecraft Skin Pack Maker</h2>
       <input type="text" id="packName" placeholder="Enter Skin Pack Name (e.g. My Skin Pack)">
@@ -206,21 +248,40 @@
       <button onclick="addSkinInput()"><i class="fas fa-plus icon"></i> Add Another Skin</button>
       <button onclick="downloadSkinPack()"><i class="fas fa-download icon"></i> Download Skin Pack</button>
     </div>
-  </main>
+  </div>
 
-  <footer>&copy; 2025 Ideas Now Alive. All rights reserved.</footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+  <footer id="contact" role="contentinfo">
+      <div class="footer-content">
+          <p class="copyright">
+              &copy; 2025 Ideas Now Alive. All rights reserved.
+          </p>
+      </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 <script>
-  // ===== Security (disable right-click & dev tools) =====
-  document.addEventListener('contextmenu', e => e.preventDefault());
-  document.addEventListener('keydown', e => {
-    if (e.key === 'F12' ||
-       ((e.ctrlKey || e.metaKey) && e.shiftKey && ['I','J','K'].includes(e.key)) ||
-       ((e.ctrlKey || e.metaKey) && e.key === 'U')) e.preventDefault();
+  // =======================================================
+  // 🔒 SECURITY BLOCK: Disable Right-Click and Console Shortcuts (Original)
+  // =======================================================
+
+  document.addEventListener('contextmenu', event => event.preventDefault());
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'F12') {
+      event.preventDefault();
+    }
+    if ((event.ctrlKey || event.metaKey) && event.shiftKey && 
+        (event.key === 'I' || event.key === 'J' || event.key === 'K')) {
+      event.preventDefault();
+    }
+    if ((event.ctrlKey || event.metaKey) && event.key === 'U') {
+      event.preventDefault();
+    }
   });
 
-  // ===== Skin Pack Logic =====
+  // =======================================================
+  // END SECURITY BLOCK
+  // =======================================================
+
   const skinsContainer = document.getElementById('skinsContainer');
 
   function updateSkinBlockToDisplay(block, name) {
@@ -230,38 +291,48 @@
     let displayDiv = block.querySelector('.skin-name-display');
 
     if (!displayDiv) {
-      displayDiv = document.createElement('div');
-      displayDiv.classList.add('skin-name-display');
-      const nameSpan = document.createElement('span');
-      nameSpan.classList.add('skin-name-text');
-      nameSpan.textContent = name;
-      const editIcon = document.createElement('i');
-      editIcon.classList.add('fas','fa-pencil-alt','edit-icon');
-      editIcon.title = "Change Skin Name";
-      editIcon.onclick = e => editSkinName(e, block);
-      displayDiv.appendChild(nameSpan);
-      displayDiv.appendChild(editIcon);
-      block.insertBefore(displayDiv, inputName);
+        displayDiv = document.createElement('div');
+        displayDiv.classList.add('skin-name-display');
+
+        const nameSpan = document.createElement('span');
+        nameSpan.classList.add('skin-name-text');
+        nameSpan.textContent = name;
+
+        const editIcon = document.createElement('i');
+        editIcon.classList.add('fas', 'fa-pencil-alt', 'edit-icon');
+        editIcon.title = "Change Skin Name";
+        editIcon.onclick = (e) => editSkinName(e, block);
+
+        displayDiv.appendChild(nameSpan);
+        displayDiv.appendChild(editIcon);
+
+        block.insertBefore(displayDiv, inputName);
     } else {
-      displayDiv.querySelector('.skin-name-text').textContent = name;
-      displayDiv.classList.remove('hidden');
+        displayDiv.querySelector('.skin-name-text').textContent = name;
+        displayDiv.classList.remove('hidden');
     }
 
     inputName.classList.add('hidden');
     inputName.value = name;
-    if (customButton) customButton.classList.add('hidden');
+    
+    if (customButton) {
+        customButton.classList.add('hidden');
+    }
   }
 
   function editSkinName(event, block) {
     const nameSpan = block.querySelector('.skin-name-text');
     const inputName = block.querySelector('input[type="text"]');
-    const currentName = nameSpan.textContent;
+    
+    let currentName = nameSpan.textContent;
     const newName = prompt("Enter the new skin name:", currentName);
-    if (newName && newName.trim() !== "") {
+
+    if (newName !== null && newName.trim() !== "") {
       nameSpan.textContent = newName.trim();
       inputName.value = newName.trim();
     }
   }
+
 
   function createSkinBlock() {
     const block = document.createElement('div');
@@ -270,14 +341,14 @@
     const inputFile = document.createElement('input');
     inputFile.type = 'file';
     inputFile.accept = 'image/png';
-    const uniqueId = 'file-' + Date.now() + Math.random().toString(36).substring(2,9);
+    const uniqueId = 'file-' + Date.now() + Math.random().toString(36).substring(2, 9);
     inputFile.id = uniqueId;
 
     const customButton = document.createElement('label');
     customButton.htmlFor = uniqueId;
     customButton.classList.add('custom-file-upload');
     customButton.innerHTML = '<i class="fas fa-file-image icon"></i> Select Skin Image';
-
+    
     const preview = document.createElement('div');
     preview.classList.add('preview');
 
@@ -285,127 +356,218 @@
     inputName.type = 'text';
     inputName.placeholder = 'Enter Skin Name';
 
-    inputFile.addEventListener('change', () => {
+    inputFile.addEventListener('change', function () {
       const file = inputFile.files[0];
       if (file && file.type === 'image/png') {
         customButton.innerHTML = `<i class="fas fa-check icon"></i> ${file.name}`;
+        
         const reader = new FileReader();
-        reader.onload = e => { preview.style.backgroundImage = `url(${e.target.result})`; };
+        reader.onload = function (e) {
+          preview.style.backgroundImage = `url(${e.target.result})`;
+        };
         reader.readAsDataURL(file);
       }
     });
 
-    block.append(inputFile, customButton, preview, inputName);
+    block.appendChild(inputFile);
+    block.appendChild(customButton);
+    block.appendChild(preview);
+    block.appendChild(inputName);
     skinsContainer.appendChild(block);
-    return block;
-  }
 
-  function addSkinInput() {
-    const lastBlock = skinsContainer.lastElementChild;
-    if (lastBlock) {
-      const inputName = lastBlock.querySelector('input[type="text"]');
-      const lastName = inputName.value.trim();
-      const lastFile = lastBlock.querySelector('input[type="file"]').files[0];
-      if (!lastName && !lastFile) lastBlock.remove();
-      else if (!lastName || !lastFile) {
-        alert("Please enter a name and select a file for the previous skin before adding another.");
-        return;
-      } else updateSkinBlockToDisplay(lastBlock, lastName);
-    }
-    const newBlock = createSkinBlock();
-    newBlock.scrollIntoView({behavior:"smooth",block:"center"});
+    return block; 
   }
 
   createSkinBlock();
 
+  function addSkinInput() {
+    const lastBlock = skinsContainer.lastElementChild;
+    
+    if (lastBlock) {
+      const inputName = lastBlock.querySelector('input[type="text"]');
+      const lastName = inputName.value.trim();
+      const lastFile = lastBlock.querySelector('input[type="file"]').files[0];
+      
+      if (!lastName && !lastFile) {
+        lastBlock.remove();
+      } 
+      else if (!lastName || !lastFile) {
+        alert("Please enter a name and select a file for the previous skin before adding another.");
+        return; 
+      }
+      else {
+        updateSkinBlockToDisplay(lastBlock, lastName);
+      }
+    }
+    
+    const newBlock = createSkinBlock();
+    newBlock.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  
+
   function generateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c=>{
-      const r=Math.random()*16|0, v=c==='x'?r:(r&0x3|0x8);
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
   }
 
   function downloadSkinPack() {
-    const packName=document.getElementById('packName').value.trim()||'My Skin Pack';
-    const blocks=document.querySelectorAll('.skin-block');
-    const zip=new JSZip();
-    const folder=zip.folder("skinpack");
-    const skinJson=[];
-    let pending=blocks.length;
-    let hasError=false;
+    const packName = document.getElementById('packName').value.trim() || 'My Skin Pack';
+    const blocks = document.querySelectorAll('.skin-block');
+    const zip = new JSZip();
+    const skinFolder = zip.folder(packName);
+    const skinJson = [];
+    let pending = blocks.length;
+    let hasError = false;
 
-    if(pending===0){alert('Add at least one skin first.');return;}
-
-    const lastBlock=skinsContainer.lastElementChild;
-    if(lastBlock){
-      const inputName=lastBlock.querySelector('input[type="text"]');
-      const lastName=inputName.value.trim();
-      const lastFile=lastBlock.querySelector('input[type="file"]').files[0];
-      if(!lastName&&!lastFile)pending--;
-      else if(!lastName||!lastFile){alert("The last skin is incomplete.");return;}
+    if (pending === 0) {
+      alert('Add at least one skin first.');
+      return;
     }
-    if(pending===0){alert('Add at least one skin first.');return;}
 
-    blocks.forEach((block,i)=>{
-      const inputName=block.querySelector('input[type="text"]');
-      const lastName=inputName.value.trim();
-      const file=block.querySelector('input[type="file"]').files[0];
-      if(!lastName&&!file&&!block.querySelector('.skin-name-display'))return;
-      if(hasError)return;
-      if(!file||!lastName){alert(`Skin ${i+1} missing name/file.`);hasError=true;return;}
-
-      const reader=new FileReader();
-      reader.onload=e=>{
-        if(hasError)return;
-        folder.file(`${lastName}.png`,e.target.result);
-        skinJson.push({
-          localization_name:lastName,
-          geometry:"geometry.default",
-          texture:`${lastName}.png`,
-          type:"free"
-        });
+    const lastBlock = skinsContainer.lastElementChild;
+    if (lastBlock) {
+      const inputName = lastBlock.querySelector('input[type="text"]');
+      const lastName = inputName.value.trim();
+      const lastFile = lastBlock.querySelector('input[type="file"]').files[0];
+      
+      if (!lastName && !lastFile && !lastBlock.querySelector('.skin-name-display')) {
         pending--;
-        if(pending===0)finalize();
+      }
+      else if (!lastName || !lastFile) {
+        alert("The last skin is incomplete. Please fill the name and select a file.");
+        return;
+      }
+    }
+    
+    if (pending === 0) {
+        alert('Add at least one skin first.');
+        return;
+    }
+
+
+    blocks.forEach((block, index) => {
+      
+      const inputName = block.querySelector('input[type="text"]'); 
+      const lastName = inputName.value.trim();
+      const lastFile = block.querySelector('input[type="file"]').files[0];
+      
+      if (!lastName && !lastFile && !block.querySelector('.skin-name-display')) {
+        return;
+      }
+      
+      if(hasError) return; 
+
+      const inputFile = block.querySelector('input[type="file"]');
+      const file = inputFile.files[0];
+      const name = lastName;
+
+      if (!file || !name) {
+        alert(`Skin ${index + 1} is missing name or file.`);
+        hasError = true;
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        if(hasError) return; 
+        
+        skinFolder.file(`${name}.png`, e.target.result);
+        
+        const safeSkinName = name.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+        
+        skinJson.push({
+          localization_name: safeSkinName,
+          display_name: name,
+          geometry: "geometry.humanoid.custom",
+          texture: `${name}.png`,
+          type: "free"
+        });
+
+        pending--;
+        if (pending === 0) finalize();
       };
       reader.readAsArrayBuffer(file);
     });
+    
+    if (hasError) return; 
 
-    if(hasError)return;
+    function finalize() {
+      const uuid1 = generateUUID();
+      const uuid2 = generateUUID();
 
-    function finalize(){
-      const uuid1=generateUUID();
-      const uuid2=generateUUID();
-      const manifest={
-        format_version:2,
-        header:{name:packName,uuid:uuid1,version:[1,0,0]},
-        modules:[{type:"skin_pack",uuid:uuid2,version:[1,0,0]}]
+      const safePackName = packName.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+      let langContent = `skinpack.${safePackName}=${packName}\n`;
+      const cleanedSkinJson = [];
+      
+      skinJson.forEach(skin => {
+        langContent += `skin.${safePackName}.${skin.localization_name}=${skin.display_name}\n`;
+
+        const { display_name, ...cleanedSkin } = skin;
+        cleanedSkinJson.push(cleanedSkin);
+      });
+
+
+      const manifest = {
+        format_version: 2,
+        header: {
+          name: packName,
+          uuid: uuid1,
+          version: [1, 0, 0]
+        },
+        modules: [
+          {
+            type: "skin_pack",
+            uuid: uuid2,
+            version: [1, 0, 0]
+          }
+        ]
       };
-      const skins={
-        format_version:1,
-        skins:skinJson,
-        serialize_name:packName,
-        localization_name:packName
-      };
-      folder.file("manifest.json",JSON.stringify(manifest,null,2));
-      folder.file("skins.json",JSON.stringify(skins,null,2));
 
-      zip.generateAsync({type:"blob"}).then(content=>{
-        const fileName=`${packName.replace(/\s+/g,'_').toLowerCase()}.mcpack`;
-        const blob=new Blob([content],{type:'application/octet-stream'});
-        const a=document.createElement('a');
-        a.href=URL.createObjectURL(blob);
-        a.download=fileName;
+      const skins = {
+        format_version: 1,
+        skins: cleanedSkinJson,
+        serialize_name: safePackName,
+        localization_name: safePackName
+      };
+
+      skinFolder.file("manifest.json", JSON.stringify(manifest, null, 2));
+      skinFolder.file("skins.json", JSON.stringify(skins, null, 2));
+      
+      skinFolder.folder("texts").file("en_US.lang", langContent); 
+
+      zip.generateAsync({ type: "blob" }).then(function (content) {
+        const fileName = `${packName.replace(/\s+/g, '_').toLowerCase()}.mcpack`;
+        const mcpackBlob = new Blob([content], { type: 'application/octet-stream' }); 
+        
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(mcpackBlob);
+        a.download = fileName; 
+        
         a.click();
         URL.revokeObjectURL(a.href);
       });
     }
   }
 
-  // Auto-apply system dark mode
-  (()=>{
-    const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if(prefersDark)document.body.setAttribute('data-theme','dark');
-  })();
+  // --- NEW JAVASCRIPT FOR HEADER STICKINESS ---
+  function handleScrollHeader() {
+      const header = document.getElementById('main-header');
+      const scrollThreshold = 50;
+
+      if (window.scrollY > scrollThreshold) {
+          header.classList.add('header-scrolled');
+      } else {
+          header.classList.remove('header-scrolled');
+      }
+  }
+
+  window.addEventListener('scroll', handleScrollHeader);
+  window.addEventListener('DOMContentLoaded', handleScrollHeader);
+
 </script>
 </body>
 </html>
