@@ -6,41 +6,96 @@
   <title>Minecraft Skin Pack Maker</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
-    /* Global Reset and Skin Pack Maker Styles (Original) */
+    /* ====== THEME COLORS (same as mywebpro.html) ====== */
     * {
-      box-sizing: border-box;
+        box-sizing: border-box;
     }
     body {
+      --color-bg-primary: #FFFFFF;
+      --color-bg-secondary: #F9FAFB;
+      --color-text-primary: #111827;
+      --color-text-secondary: #6B7280;
+      --color-primary: #4F46E5;
+      --color-border: #E5E7EB;
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
       font-family: 'Segoe UI', sans-serif;
-      background: #121212;
-      color: #e0e0e0;
-      /* Removed: display: flex; align-items: center; to allow full-width header/footer */
-      padding: 0; /* Changed from 20px */
       margin: 0;
-      min-height: 100vh; /* Ensure body takes full height */
+      padding: 0;
       display: flex;
       flex-direction: column;
+      min-height: 100vh;
     }
-    .main-content-wrapper {
-        flex-grow: 1; /* Pushes the footer down */
-        display: flex;
-        justify-content: center;
-        align-items: flex-start; /* Align content to the top of the viewport */
-        padding: 20px 10px;
+    body[data-theme="dark"] {
+      --color-bg-primary: #0A0A0A;
+      --color-bg-secondary: rgba(24, 24, 27, 0.95);
+      --color-text-primary: #F3F4F6;
+      --color-text-secondary: #9CA3AF;
+      --color-primary: #6366F1;
+      --color-border: rgba(75, 85, 99, 0.5);
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+    }
+
+    /* ====== HEADER ====== */
+    header {
+      /* **CHANGED to sticky and top: 0** */
+      position: sticky; 
+      top: 0; 
+      z-index: 1000; /* Ensures the header stays on top */
+      /* --- */
+      background: var(--color-bg-secondary);
+      border-bottom: 1px solid var(--color-border);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .header-title {
+      color: var(--color-primary);
+      font-weight: 700;
+      font-size: 20px;
+    }
+    .back-btn {
+      background: var(--color-primary);
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: 0.2s;
+    }
+    .back-btn:hover { opacity: 0.85; }
+
+    /* ====== MAIN ====== */
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
     }
     .container {
       width: 100%;
       max-width: 600px;
-      background: #1f1f1f;
+      background: var(--color-bg-secondary);
       padding: 25px;
-      border-radius: 5px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+    input, textarea, select, button {
+       max-width: 100%;
     }
     h2 {
       text-align: center;
       margin-bottom: 20px;
-      color: #f4f4f4;
+      color: var(--color-text-primary);
     }
+
+    /* ====== INPUTS & BUTTONS ====== */
     .preview {
       width: 128px;
       height: 128px;
@@ -48,71 +103,71 @@
       margin: 10px auto;
       background-size: cover;
       background-position: center;
-      border: 2px solid #555;
-      border-radius: 5px;
+      border: 2px solid var(--color-border);
+      border-radius: 8px;
     }
     input[type="file"], input[type="text"], button {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
-      border-radius: 5px;
+      border-radius: 6px;
       border: none;
       font-size: 15px;
     }
     input[type="file"], input[type="text"] {
-      background: #2a2a2a;
-      color: #fff;
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      border: 1px solid var(--color-border);
     }
-    /* Style for the custom file selector button */
+
+    /* ====== CUSTOM FILE BUTTON ====== */
     .custom-file-upload {
-      background: #2a2a2a;
-      color: #fff;
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
       display: block;
       text-align: center;
       padding: 12px;
       margin: 10px 0;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
       font-size: 15px;
+      border: 1px solid var(--color-border);
       transition: background 0.3s;
     }
     .custom-file-upload:hover {
-        background: #3a3a3a;
+      background: var(--color-border);
     }
-    /* Hide the default file input */
-    input[type="file"] {
-        display: none !important;
-    }
+    input[type="file"] { display: none !important; }
+
     button {
-      background: #3C43CC;
+      background: var(--color-primary);
       color: white;
       font-weight: bold;
       cursor: pointer;
-      border-radius: 5px;
     }
-    button:hover {
-      background: #0056b3;
-    }
+    button:hover { opacity: 0.9; }
+
+    /* ====== SKIN BLOCKS ====== */
     .skin-block {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 5px;
+      background: var(--color-bg-primary);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
       padding: 15px;
       margin-bottom: 15px;
     }
-    .icon {
-      margin-right: 8px;
-    }
-    /* Styles for locked/display mode */
+    .icon { margin-right: 8px; }
+
+    /* ====== LOCKED DISPLAY ====== */
     .skin-name-display {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #2a2a2a;
-      color: #fff;
+      background: var(--color-bg-secondary);
+      color: var(--color-text-primary);
       padding: 12px;
       margin: 10px 0;
-      border-radius: 5px;
+      border-radius: 6px;
+      border: 1px solid var(--color-border);
       font-size: 15px;
     }
     .skin-name-text {
@@ -123,124 +178,32 @@
     }
     .edit-icon {
       cursor: pointer;
-      color: #007BFF;
+      color: var(--color-primary);
       margin-left: 10px;
       font-size: 1.1em;
     }
-    .hidden {
-      display: none !important;
-    }
-    .file-locked {
-        /* reserved */
-    }
+    .hidden { display: none !important; }
 
-    /* --- NEW HEADER CSS (From website.html) --- */
-
-    #main-header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      transition: all 0.3s ease;
-      border-bottom: 1px solid rgba(75, 85, 99, 0.5); /* Custom border color */
-      background-color: transparent; /* Default transparent */
-      color: #F3F4F6;
-    }
-    .header-content {
-      max-width: 1120px; /* 7xl equivalent */
-      margin-left: auto;
-      margin-right: auto;
-      padding: 16px 10px; /* py-4 px-4 */
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .logo {
-      font-size: 20px; /* text-xl */
-      font-weight: 800; /* font-extrabold */
-      letter-spacing: 0.05em; /* tracking-wider */
-      color: #4F46E5; /* indigo-600 */
-      text-decoration: none;
-    }
-    .nav-links {
-      display: flex;
-      gap: 16px; /* space-x-4 */
-      align-items: center;
-    }
-    .nav-link {
-      color: inherit;
-      text-decoration: none;
-      transition: color 0.3s ease, background-color 0.3s ease;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      display: none; /* hidden sm:inline */
-    }
-    /* For screens larger than a small breakpoint (sm) */
-    @media (min-width: 640px) { 
-        .nav-link {
-            display: inline-block;
-        }
-    }
-    .nav-link:hover {
-      color: #4F46E5; /* hover:text-indigo-600 */
-    }
-    .back-button {
-      background: #4F46E5; /* bg-indigo-600 */
-      color: white;
-      font-weight: 600;
-      padding: 8px 16px;
-      border-radius: 8px;
-      transition: background 0.3s ease;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      text-decoration: none;
-    }
-    .back-button:hover {
-      background: #4338CA; /* hover:bg-indigo-700 */
-    }
-
-    /* Scroll State Header Styles */
-    .header-scrolled {
-        backdrop-filter: blur(4px); /* backdrop-blur-sm */
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
-        background-color: rgba(18, 18, 18, 0.9); /* Opaque background for contrast */
-    }
-
-    .footer-content {
-      max-width: 1120px; /* 7xl equivalent */
-      margin-left: auto;
-      margin-right: auto;
-      padding: 0 16px; /* px-4 */
+    /* ====== FOOTER ====== */
+    footer {
+      background: var(--color-bg-secondary);
+      border-top: 1px solid var(--color-border);
+      padding: 12px;
       text-align: center;
-    }
-    .footer-heading {
-      font-size: 24px; /* text-3xl */
-      font-weight: 700;
-      margin-bottom: 24px;
-      color: #4F46E5; /* indigo-600 */
-    }
-    .copyright {
-      text-align: center;
-      font-size: 14px;
-      margin-top: 32px;
-      color: #9CA3AF; /* text-secondary equivalent */
+      font-size: 12px;
+      color: var(--color-text-secondary);
     }
   </style>
 </head>
 <body>
-  <header id="main-header">
-    <div class="header-content">
-      <a href="#" class="logo">
-          Skin Pack Maker
-      </a>
-      <nav class="nav-links">
-        <a href="https://meow-me7.github.io/myweb/mywebpro.html" class="back-button">
-          Back
-        </a>
-      </nav>
-    </div>
+  <header id="header-title">
+    <div class="header-title">Skin Pack Maker</div>
+    <a href="https://meow-me7.github.io/myweb/mywebpro.html" class="back-btn">
+      Back
+    </a>
   </header>
-  <div class="main-content-wrapper">
+
+  <main>
     <div class="container">
       <h2><i class="fas fa-cube icon"></i> Minecraft Skin Pack Maker</h2>
       <input type="text" id="packName" placeholder="Enter Skin Pack Name (e.g. My Skin Pack)">
@@ -248,16 +211,11 @@
       <button onclick="addSkinInput()"><i class="fas fa-plus icon"></i> Add Another Skin</button>
       <button onclick="downloadSkinPack()"><i class="fas fa-download icon"></i> Download Skin Pack</button>
     </div>
-  </div>
+  </main>
 
-  <footer id="contact" role="contentinfo">
-      <div class="footer-content">
-          <p class="copyright">
-              &copy; 2025 Ideas Now Alive. All rights reserved.
-          </p>
-      </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+  <footer>&copy; 2025 Ideas Now Alive. All rights reserved.</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 <script>
   // =======================================================
   // 🔒 SECURITY BLOCK: Disable Right-Click and Console Shortcuts (Original)
@@ -553,21 +511,11 @@
     }
   }
 
-  // --- NEW JAVASCRIPT FOR HEADER STICKINESS ---
-  function handleScrollHeader() {
-      const header = document.getElementById('main-header');
-      const scrollThreshold = 50;
 
-      if (window.scrollY > scrollThreshold) {
-          header.classList.add('header-scrolled');
-      } else {
-          header.classList.remove('header-scrolled');
-      }
-  }
-
-  window.addEventListener('scroll', handleScrollHeader);
-  window.addEventListener('DOMContentLoaded', handleScrollHeader);
-
+    (()=>{
+    const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if(prefersDark)document.body.setAttribute('data-theme','dark');
+  })();
 </script>
 </body>
 </html>
