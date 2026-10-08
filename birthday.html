@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Tracker - TinyForge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'DM Sans', sans-serif;
+            background: #101211;
+            color: #F8F8F5;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        .header {
+            background: #171918;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #2E3330;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+            flex: 1;
+            color: #F8F8F5;
+        }
+
+        .back-link {
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            background-color: #F15A24;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(241, 90, 36, 0.20);
+            transition: background-color 200ms cubic-bezier(0.16,1,0.3,1), transform 200ms cubic-bezier(0.16,1,0.3,1), box-shadow 200ms cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .back-link:hover {
+            background-color: #D94818;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(241, 90, 36, 0.35);
+        }
+
+        .back-link:active {
+            transform: scale(0.96);
+            transition-duration: 80ms;
+            box-shadow: none;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: #F8F8F5;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: #222624;
+            border: 1px solid #2E3330;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(20, 25, 22, 0.08);
+            overflow: hidden;
+            display: none;
+            z-index: 200;
+            min-width: 180px;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-item {
+            width: 100%;
+            background: none;
+            border: none;
+            color: #F8F8F5;
+            padding: 15px 20px;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: #171918;
+        }
+
+        .dropdown-item i {
+            width: 20px;
+            color: #F15A24;
+        }
+
+        .search-bar {
+            background: #171918;
+            padding: 15px 20px;
+            margin: 15px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #2E3330;
+        }
+
+        .search-bar input {
+            background: none;
+            border: none;
+            color: #F8F8F5;
+            flex: 1;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .search-bar input::placeholder {
+            color: #B8BBB5;
+        }
+
+        .search-bar i {
+            color: #B8BBB5;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 15px;
+            padding: 0 20px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .filter-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-tab {
+            background: #222624;
+            border: 1px solid #2E3330;
+            color: #B8BBB5;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background-color 200ms cubic-bezier(0.16,1,0.3,1), transform 200ms cubic-bezier(0.16,1,0.3,1), box-shadow 200ms cubic-bezier(0.16,1,0.3,1), color 200ms cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .filter-tab:hover {
+            transform: translateY(-2px);
+            color: #F8F8F5;
+            border-color: #F15A24;
+        }
+
+        .filter-tab.active {
+            background: #F15A24;
+            border-color: #F15A24;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(241, 90, 36, 0.20);
+        }
+
+        .filter-tab.active:hover {
+            background: #D94818;
+            color: #FFFFFF;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
+        .birthday-card {
+            background: #222624;
+            border: 1px solid #2E3330;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 250ms cubic-bezier(0.16,1,0.3,1), box-shadow 250ms cubic-bezier(0.16,1,0.3,1);
+            box-shadow: 0 8px 24px rgba(20, 25, 22, 0.08);
+        }
+
+        .birthday-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .birthday-card:active {
+            transform: translateY(-2px) scale(0.98);
+            transition-duration: 100ms;
+        }
+
+        .card-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #F8F8F5;
+        }
+
+        .card-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+            color: #B8BBB5;
+        }
+
+        .card-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .card-info-label {
+            color: #B8BBB5;
+            font-size: 11px;
+        }
+
+        .card-info-value {
+            color: #F8F8F5;
+            font-size: 14px;
+        }
+
+        .time-left {
+            color: #789447;
+            font-weight: 600;
+        }
+
+        .delete-btn {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(239, 68, 68, 0.2);
+            border: none;
+            color: #ef4444;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 200ms cubic-bezier(0.16,1,0.3,1), transform 200ms cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .delete-btn:hover {
+            background: rgba(239, 68, 68, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .delete-btn:active {
+            transform: scale(0.96);
+            transition-duration: 80ms;
+        }
+
+        .bottom-actions {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .trash-btn, .add-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: background-color 200ms cubic-bezier(0.16,1,0.3,1), transform 200ms cubic-bezier(0.16,1,0.3,1), box-shadow 200ms cubic-bezier(0.16,1,0.3,1);
+            box-shadow: 0 4px 12px rgba(241, 90, 36, 0.20);
+        }
+
+        .trash-btn {
+            background: #222624;
+            color: #B8BBB5;
+            border: 1px solid #2E3330;
+            box-shadow: none;
+        }
+
+        .trash-btn:hover {
+            transform: translateY(-2px);
+            color: #F8F8F5;
+            border-color: #F15A24;
+        }
+
+        .add-btn {
+            background: #F15A24;
+            color: #FFFFFF;
+            margin-left: auto;
+        }
+
+        .trash-btn:active, .add-btn:active {
+            transform: scale(0.96);
+            transition-duration: 80ms;
+            box-shadow: none;
+        }
+
+        .add-btn:hover {
+            background: #D94818;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(241, 90, 36, 0.35);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #222624;
+            border: 1px solid #2E3330;
+            border-radius: 14px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #F8F8F5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #B8BBB5;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: #101211;
+            border: 1px solid #2E3330;
+            border-radius: 8px;
+            padding: 12px 15px;
+            color: #F8F8F5;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            border-color: #F15A24;
+            box-shadow: 0 0 0 3px rgba(241, 90, 36, 0.15);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            flex: 1;
+            min-height: 44px;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 200ms cubic-bezier(0.16,1,0.3,1), transform 200ms cubic-bezier(0.16,1,0.3,1), box-shadow 200ms cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .btn-cancel {
+            background: #2E3330;
+            color: #F8F8F5;
+        }
+
+        .btn-cancel:hover {
+            background: #3A403C;
+            transform: translateY(-2px);
+        }
+
+        .btn-submit {
+            background: #F15A24;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(241, 90, 36, 0.20);
+        }
+
+        .btn-submit:hover {
+            background: #D94818;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(241, 90, 36, 0.35);
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+            transition-duration: 80ms;
+            box-shadow: none;
+        }
+
+        .trash-list {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .trash-item {
+            background: #101211;
+            border: 1px solid #2E3330;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .trash-item-info {
+            flex: 1;
+        }
+
+        .trash-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #F8F8F5;
+        }
+
+        .trash-item-days {
+            font-size: 12px;
+            color: #B8BBB5;
+        }
+
+        .restore-btn {
+            background: #F15A24;
+            border: none;
+            color: #FFFFFF;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background-color 200ms cubic-bezier(0.16,1,0.3,1), transform 200ms cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .restore-btn:hover {
+            background: #D94818;
+            transform: translateY(-2px);
+        }
+
+        .restore-btn:active {
+            transform: scale(0.96);
+            transition-duration: 80ms;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #B8BBB5;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+        }
+
+        @media (max-width: 480px) {
+            .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 12px;
+            }
+
+            .birthday-card {
+                padding: 15px;
+                min-height: 180px;
+            }
+        }
+
+        .app-footer {
+            background: #171918;
+            border-top: 1px solid #2E3330;
+            color: #B8BBB5;
+            text-align: center;
+            padding: 12px 20px;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .birthday-card:hover, .filter-tab:hover, .add-btn:hover, .trash-btn:hover,
+            .delete-btn:hover, .restore-btn:hover, .btn-submit:hover, .btn-cancel:hover,
+            .back-link:hover {
+                transform: none !important;
+            }
+            .birthday-card, .filter-tab, .add-btn, .trash-btn,
+            .delete-btn, .restore-btn, .btn, .back-link {
+                transition-duration: 150ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="header-title">Birthday Tracker</h1>
+        <a href="mywebpro.html" class="back-link">Back</a>
+        <button class="menu-btn" id="menuBtn"><i class="fas fa-ellipsis-v"></i></button>
+    </div>
+
+    <!-- Dropdown Menu -->
+    <div class="dropdown-menu" id="dropdownMenu">
+        <button class="dropdown-item" id="exportBtn">
+            <i class="fas fa-download"></i> Export CSV
+        </button>
+        <button class="dropdown-item" id="importBtn">
+            <i class="fas fa-upload"></i> Import CSV
+        </button>
+    </div>
+    <input type="file" id="fileInput" accept=".csv" style="display: none;">
+
+    <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search" id="searchInput">
+    </div>
+
+    <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">All</button>
+        <button class="filter-tab" data-filter="thisMonth">This Month</button>
+        <button class="filter-tab" data-filter="upcoming">Upcoming</button>
+    </div>
+
+    <div class="cards-container" id="cardsContainer"></div>
+
+    <div class="bottom-actions">
+        <button class="trash-btn" id="trashBtn">
+            <i class="fas fa-trash"></i>
+        </button>
+        <button class="add-btn" id="addBtn">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+    <!-- Add Birthday Modal -->
+    <div class="modal" id="addModal">
+        <div class="modal-content">
+            <h2 class="modal-header">Add Birthday</h2>
+            <form id="addForm">
+                <div class="form-group">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-input" id="nameInput" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date of Birth</label>
+                    <input type="date" class="form-input" id="dobInput" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-cancel" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-submit">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Trash Modal -->
+    <div class="modal" id="trashModal">
+        <div class="modal-content">
+            <h2 class="modal-header">Trash</h2>
+            <div class="trash-list" id="trashList"></div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-cancel" id="closeTrashBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="app-footer">&copy; 2025 TinyForge. All rights reserved.</footer>
+
+    <script>
+        const birthdays = JSON.parse(localStorage.getItem('birthdays')) || [];
+        const trash = JSON.parse(localStorage.getItem('trash')) || [];
+        let currentFilter = 'all';
+
+        function saveBirthdays() {
+            localStorage.setItem('birthdays', JSON.stringify(birthdays));
+        }
+
+        function saveTrash() {
+            localStorage.setItem('trash', JSON.stringify(trash));
+        }
+
+        function calculateAge(dob, targetDate) {
+            const diff = targetDate - dob;
+            return Math.floor(diff / (365.25 * 24 * 60 * 60 * 1000));
+        }
+
+        function getNextBirthday(dob) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Reset time to midnight for accurate comparison
+            
+            const currentYear = today.getFullYear();
+            const birthMonth = dob.getMonth();
+            const birthDay = dob.getDate();
+            
+            let nextBirthday = new Date(currentYear, birthMonth, birthDay);
+            nextBirthday.setHours(0, 0, 0, 0); // Reset time to midnight
+            
+            if (nextBirthday < today) {
+                nextBirthday = new Date(currentYear + 1, birthMonth, birthDay);
+                nextBirthday.setHours(0, 0, 0, 0);
+            }
+            
+            return nextBirthday;
+        }
+
+        function getTimeLeft(nextBirthday) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Reset time to midnight for accurate comparison
+            
+            const diff = nextBirthday - today;
+            const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+            
+            if (days === 0) return 'Today!';
+            if (days === 1) return 'Tomorrow';
+            if (days < 30) return `${days} days`;
+            if (days < 365) {
+                const months = Math.floor(days / 30);
+                return `${months} month${months > 1 ? 's' : ''}`;
+            }
+            const years = Math.floor(days / 365);
+            return `${years} year${years > 1 ? 's' : ''}`;
+        }
+
+        function formatDate(date) {
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function renderBirthdays() {
+            const container = document.getElementById('cardsContainer');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            let filteredBirthdays = birthdays.filter(b => 
+                b.name.toLowerCase().includes(searchTerm)
+            );
+
+            if (currentFilter === 'thisMonth') {
+                const currentMonth = new Date().getMonth();
+                filteredBirthdays = filteredBirthdays.filter(b => {
+                    const dob = new Date(b.dob);
+                    return dob.getMonth() === currentMonth;
+                });
+            } else if (currentFilter === 'upcoming') {
+                filteredBirthdays = filteredBirthdays.sort((a, b) => {
+                    const nextA = getNextBirthday(new Date(a.dob));
+                    const nextB = getNextBirthday(new Date(b.dob));
+                    return nextA - nextB;
+                }).slice(0, 10);
+            }
+
+            if (filteredBirthdays.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <i class="fas fa-birthday-cake"></i>
+                        <p>No birthdays found</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filteredBirthdays.map((birthday, index) => {
+                const dob = new Date(birthday.dob);
+                const nextBirthday = getNextBirthday(dob);
+                const nextAge = calculateAge(dob, nextBirthday);
+                const timeLeft = getTimeLeft(nextBirthday);
+
+                return `
+                    <div class="birthday-card">
+                        <div class="card-name">${birthday.name}</div>
+                        <div class="card-info">
+                            <div class="card-info-item">
+                                <span class="card-info-label">Date of Birth</span>
+                                <span class="card-info-value">${formatDate(dob)}</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="card-info-label">Next Birthday</span>
+                                <span class="card-info-value">${formatDate(nextBirthday)}</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="card-info-label">Turning</span>
+                                <span class="card-info-value">${nextAge} years old</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="card-info-label">Time Left</span>
+                                <span class="card-info-value time-left">${timeLeft}</span>
+                            </div>
+                        </div>
+                        <button class="delete-btn" onclick="deleteBirthday(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function deleteBirthday(index) {
+            const birthday = birthdays[index];
+            trash.push({
+                ...birthday,
+                deletedAt: new Date().toISOString()
+            });
+            birthdays.splice(index, 1);
+            saveBirthdays();
+            saveTrash();
+            renderBirthdays();
+        }
+
+        function renderTrash() {
+            const trashList = document.getElementById('trashList');
+            const now = new Date();
+            
+            const validTrash = trash.filter(item => {
+                const deletedDate = new Date(item.deletedAt);
+                const daysSinceDeleted = (now - deletedDate) / (24 * 60 * 60 * 1000);
+                return daysSinceDeleted <= 30;
+            });
+
+            if (validTrash.length !== trash.length) {
+                trash.length = 0;
+                trash.push(...validTrash);
+                saveTrash();
+            }
+
+            if (validTrash.length === 0) {
+                trashList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-trash"></i>
+                        <p>Trash is empty</p>
+                    </div>
+                `;
+                return;
+            }
+
+            trashList.innerHTML = validTrash.map((item, index) => {
+                const deletedDate = new Date(item.deletedAt);
+                const daysLeft = 30 - Math.floor((now - deletedDate) / (24 * 60 * 60 * 1000));
+                
+                return `
+                    <div class="trash-item">
+                        <div class="trash-item-info">
+                            <div class="trash-item-name">${item.name}</div>
+                            <div class="trash-item-days">Deletes in ${daysLeft} days</div>
+                        </div>
+                        <button class="restore-btn" onclick="restoreBirthday(${index})">
+                            <i class="fas fa-undo"></i> Restore
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function restoreBirthday(index) {
+            const item = trash[index];
+            birthdays.push({
+                name: item.name,
+                dob: item.dob
+            });
+            trash.splice(index, 1);
+            saveBirthdays();
+            saveTrash();
+            renderBirthdays();
+            renderTrash();
+        }
+
+        // Event Listeners
+        document.getElementById('addBtn').addEventListener('click', () => {
+            document.getElementById('addModal').classList.add('active');
+        });
+
+        document.getElementById('cancelBtn').addEventListener('click', () => {
+            document.getElementById('addModal').classList.remove('active');
+            document.getElementById('addForm').reset();
+        });
+
+        document.getElementById('trashBtn').addEventListener('click', () => {
+            renderTrash();
+            document.getElementById('trashModal').classList.add('active');
+        });
+
+        document.getElementById('closeTrashBtn').addEventListener('click', () => {
+            document.getElementById('trashModal').classList.remove('active');
+        });
+
+        document.getElementById('addForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('nameInput').value;
+            const dob = document.getElementById('dobInput').value;
+            
+            birthdays.push({ name, dob });
+            saveBirthdays();
+            renderBirthdays();
+            
+            document.getElementById('addModal').classList.remove('active');
+            document.getElementById('addForm').reset();
+        });
+
+        document.getElementById('searchInput').addEventListener('input', renderBirthdays);
+
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentFilter = tab.dataset.filter;
+                renderBirthdays();
+            });
+        });
+
+        // Close modals on background click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+
+        // Initial render
+        renderBirthdays();
+
+        // Menu toggle
+        document.getElementById('menuBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.getElementById('dropdownMenu').classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            document.getElementById('dropdownMenu').classList.remove('active');
+        });
+
+        // Export to CSV
+        document.getElementById('exportBtn').addEventListener('click', () => {
+            if (birthdays.length === 0) {
+                alert('No birthdays to export!');
+                return;
+            }
+
+            // Create CSV content
+            let csvContent = 'Name,Date of Birth\n';
+            birthdays.forEach(birthday => {
+                csvContent += `"${birthday.name}","${birthday.dob}"\n`;
+            });
+
+            // Create blob and download
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', `birthdays_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            document.getElementById('dropdownMenu').classList.remove('active');
+        });
+
+        // Import from CSV
+        document.getElementById('importBtn').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+            document.getElementById('dropdownMenu').classList.remove('active');
+        });
+
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const csvData = event.target.result;
+                    const lines = csvData.split('\n');
+                    
+                    // Skip header row
+                    let importedCount = 0;
+                    for (let i = 1; i < lines.length; i++) {
+                        const line = lines[i].trim();
+                        if (!line) continue;
+
+                        // Parse CSV line (handle quoted values)
+                        const match = line.match(/^"([^"]*)","([^"]*)"$/);
+                        if (match) {
+                            const name = match[1];
+                            const dob = match[2];
+                            
+                            // Validate date format
+                            if (name && dob && !isNaN(Date.parse(dob))) {
+                                birthdays.push({ name, dob });
+                                importedCount++;
+                            }
+                        }
+                    }
+
+                    saveBirthdays();
+                    renderBirthdays();
+                    alert(`Successfully imported ${importedCount} birthday(s)!`);
+                } catch (error) {
+                    alert('Error importing CSV file. Please check the file format.');
+                }
+                
+                // Reset file input
+                e.target.value = '';
+            };
+
+            reader.readAsText(file);
+        });
+    </script>
+</body>
+</html>

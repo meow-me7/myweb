@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nether Portal Calculator - TinyForge</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter', 'DM Sans', Arial, sans-serif;
+    background-color: #101211; color: #F8F8F5;
+    min-height: 100vh; margin: 0; display: flex; flex-direction: column;
+  }
+  .app-header {
+    background-color: #171918; padding: 15px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid #2E3330; box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  }
+  .header-title { font-size: 20px; font-weight: 700; color: #F8F8F5; }
+  .back-btn {
+    color: #FFFFFF; text-decoration: none; padding: 8px 15px; border-radius: 6px;
+    background-color: #F15A24; font-size: 14px; line-height: 1; font-weight: 600;
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(241,90,36,0.20);
+    transition: background-color 200ms cubic-bezier(0.16,1,0.3,1), transform 200ms cubic-bezier(0.16,1,0.3,1), box-shadow 200ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .back-btn:hover { background-color: #D94818; box-shadow: 0 6px 20px rgba(241,90,36,0.35); }
+  .back-btn:active { transform: scale(0.98); transition-duration: 80ms; box-shadow: none; }
+  .main-content { flex-grow: 1; display: flex; justify-content: center; align-items: flex-start; padding: 50px 20px; width: 100%; }
+  .container {
+    padding: 25px; border-radius: 14px; max-width: 560px; width: 100%;
+    background: #222624; border: 1px solid #2E3330;
+    box-shadow: 0 8px 24px rgba(20,25,22,0.08);
+  }
+  h1 { font-size: 22px; margin: 0 0 6px; color: #F8F8F5; text-align: center; }
+  .sub { font-size: 13px; color: #B8BBB5; margin-bottom: 18px; text-align: center; line-height: 1.7; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .tab {
+    flex: 1; background: #101211; color: #B8BBB5; border: 1px solid #2E3330;
+    border-radius: 6px; padding: 12px 16px; font-size: 14px; line-height: 1; font-weight: 600; cursor: pointer;
+    min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
+    transition: background-color 200ms cubic-bezier(0.16,1,0.3,1), color 200ms cubic-bezier(0.16,1,0.3,1), border-color 200ms cubic-bezier(0.16,1,0.3,1), transform 200ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .tab:hover { color: #F8F8F5; border-color: #F15A24; }
+  .tab.active { background: #F15A24; border-color: #F15A24; color: #FFFFFF; box-shadow: 0 4px 12px rgba(241,90,36,0.20); }
+  .row3 { display: flex; gap: 8px; }
+  .row3 > div { flex: 1; }
+  label { display: block; font-size: 13px; font-weight: 600; color: #F8F8F5; margin: 12px 0 6px; }
+  input[type="number"] {
+    width: 100%; padding: 12px; font-size: 15px;
+    border: 1px solid #2E3330; border-radius: 8px;
+    background: #101211; color: #F8F8F5; outline: none;
+  }
+  input[type="number"]:focus { border-color: #F15A24; box-shadow: 0 0 0 3px rgba(241,90,36,0.15); }
+  .result {
+    margin-top: 18px; padding: 16px; border-radius: 8px;
+    background: #101211; border: 1px solid #2E3330; text-align: center;
+  }
+  .result .dim { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #F15A24; margin-bottom: 6px; }
+  .result .coords { font-size: 20px; font-weight: 700; color: #F8F8F5; letter-spacing: 1px; }
+  .result .hint { font-size: 12px; color: #B8BBB5; margin-top: 8px; line-height: 1.7; }
+  .btn-row { display: flex; gap: 8px; margin-top: 14px; align-items: stretch; }
+  button.action {
+    flex: 1; background: #F15A24; color: #FFFFFF; border: none; border-radius: 6px;
+    min-height: 44px; padding: 12px 16px; font-size: 14px; line-height: 1; font-weight: 600; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(241,90,36,0.20);
+    transition: background-color 200ms cubic-bezier(0.16,1,0.3,1), transform 200ms cubic-bezier(0.16,1,0.3,1), box-shadow 200ms cubic-bezier(0.16,1,0.3,1);
+  }
+  button.action:hover { background: #D94818; box-shadow: 0 6px 20px rgba(241,90,36,0.35); }
+  button.action:active { transform: scale(0.98); transition-duration: 80ms; box-shadow: none; }
+  button.ghost {
+    flex: 1; background: #101211; color: #F8F8F5; border: 1px solid #2E3330; border-radius: 6px;
+    min-height: 44px; padding: 12px 16px; font-size: 14px; line-height: 1; font-weight: 600; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    transition: background-color 200ms cubic-bezier(0.16,1,0.3,1), transform 200ms cubic-bezier(0.16,1,0.3,1), box-shadow 200ms cubic-bezier(0.16,1,0.3,1);
+  }
+  button.ghost:hover { background: #2E3330; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45); }
+  button.ghost:active { transform: scale(0.96); transition-duration: 80ms; }
+  footer { background: #171918; border-top: 1px solid #2E3330; color: #B8BBB5; text-align: center; padding: 12px 20px; font-size: 12px; }
+  @media (prefers-reduced-motion: reduce) {
+    button.action, button.ghost, .back-btn, .tab { transition-duration: 150ms !important; transform: none !important; }
+  }
+</style>
+</head>
+<body>
+<header class="app-header">
+  <div class="header-title">Nether Portal Calculator</div>
+  <a href="mywebpro.html" class="back-btn">Back</a>
+</header>
+<div class="main-content">
+  <div class="container">
+    <h1>Nether Portal Calculator</h1>
+    <p class="sub">1 block in Nether = 8 blocks in Overworld. Enter coordinates to link portals correctly.</p>
+    <div class="tabs">
+      <button class="tab active" id="tabToNether" onclick="setMode('toNether')">Overworld to Nether</button>
+      <button class="tab" id="tabToOver" onclick="setMode('toOver')">Nether to Overworld</button>
+    </div>
+    <div class="row3">
+      <div><label for="xIn">X:</label><input type="number" id="xIn" value="0" oninput="convert()" /></div>
+      <div><label for="yIn">Y:</label><input type="number" id="yIn" value="64" oninput="convert()" /></div>
+      <div><label for="zIn">Z:</label><input type="number" id="zIn" value="0" oninput="convert()" /></div>
+    </div>
+    <div class="result">
+      <div class="dim" id="resLabel">Build in Nether at</div>
+      <div class="coords" id="resCoords">0, 64, 0</div>
+      <div class="hint" id="resHint">Y stays the same. Keep portals away from cliffs and lava lakes.</div>
+    </div>
+    <div class="btn-row">
+      <button class="action" onclick="convert()">Calculate</button>
+      <button class="ghost" id="copyBtn" onclick="copyCoords()">Copy</button>
+    </div>
+  </div>
+</div>
+<footer>&copy; 2025 TinyForge. All rights reserved.</footer>
+<script>
+  let mode = 'toNether';
+  function setMode(m) {
+    mode = m;
+    document.getElementById('tabToNether').classList.toggle('active', m === 'toNether');
+    document.getElementById('tabToOver').classList.toggle('active', m === 'toOver');
+    convert();
+  }
+  function convert() {
+    const x = parseInt(document.getElementById('xIn').value, 10) || 0;
+    const y = parseInt(document.getElementById('yIn').value, 10) || 0;
+    const z = parseInt(document.getElementById('zIn').value, 10) || 0;
+    let ox, oz, label;
+    if (mode === 'toNether') {
+      ox = Math.floor(x / 8);
+      oz = Math.floor(z / 8);
+      label = 'Build in Nether at';
+    } else {
+      ox = x * 8;
+      oz = z * 8;
+      label = 'Build in Overworld at';
+    }
+    document.getElementById('resLabel').textContent = label;
+    document.getElementById('resCoords').textContent = ox + ', ' + y + ', ' + oz;
+    document.getElementById('copyBtn').textContent = 'Copy';
+  }
+  function copyCoords() {
+    const t = document.getElementById('resCoords').textContent;
+    function done() {
+      const b = document.getElementById('copyBtn');
+      b.textContent = 'Copied!';
+      setTimeout(function() { b.textContent = 'Copy'; }, 1500);
+    }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(t).then(done).catch(function() { fallback(); });
+    } else { fallback(); }
+    function fallback() {
+      const ta = document.createElement('textarea');
+      ta.value = t;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); done(); } catch(e) {}
+      ta.remove();
+    }
+  }
+  convert();
+</script>
+</body>
+</html>
