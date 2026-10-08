@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ideas Now Alive - Project Portfolio</title>
+    <title>TinyForge - Project Portfolio</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
         tailwind.config = {
@@ -30,52 +31,52 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        /* Light mode (CSS kept but now unused) */
+        /* Light mode - White content sections for readability */
         body.light-mode {
             background-color: #FFFFFF;
-            color: #111827;
+            color: #171918;
         }
 
         body.light-mode .bg-card {
-            background-color: #F9FAFB;
-            border: 1px solid #E5E7EB;
+            background-color: #FFFFFF;
+            border: 1px solid #ECEDE9;
         }
 
         body.light-mode .text-secondary {
-            color: #6B7280;
+            color: #777B76;
         }
 
         body.light-mode .border-custom {
-            border-color: #E5E7EB;
+            border-color: #ECEDE9;
         }
 
         body.light-mode header,
         body.light-mode footer {
-            border-color: #E5E7EB;
+            border-color: #ECEDE9;
         }
 
-        /* Dark mode */
+        /* Dark mode - Deep charcoal hero / CTA */
         body.dark-mode {
-            background-color: #0A0A0A;
-            color: #F3F4F6;
+            background-color: #101211;
+            color: #F8F8F5;
         }
 
         body.dark-mode .bg-card {
-            background-color: rgba(24, 24, 27, 0.95);
-            border: 1px solid rgba(75, 85, 99, 0.5);
+            background-color: #222624;
+            border: 1px solid #2E3330;
         }
 
         body.dark-mode .text-secondary {
-            color: #9CA3AF;
+            color: #B8BBB5;
         }
 
         body.dark-mode .border-custom {
-            border-color: rgba(75, 85, 99, 0.5);
+            border-color: #2E3330;
         }
 
         body.dark-mode header,
         body.dark-mode footer {
-            border-color: rgba(75, 85, 99, 0.5);
+            border-color: #2E3330;
         }
 
         ::-webkit-scrollbar {
@@ -83,33 +84,54 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #E5E7EB;
+            background: #ECEDE9;
         }
 
         body.dark-mode ::-webkit-scrollbar-track {
-            background: rgba(75, 85, 99, 0.5);
+            background: #222624;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #4F46E5;
+            background: #F15A24;
             border-radius: 5px;
         }
 
         body.dark-mode ::-webkit-scrollbar-thumb {
-            background: #6366F1;
+            background: #F15A24;
+        }
+
+        .project-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .project-card .card-links {
+            margin-top: auto;
+            padding-top: 16px;
+        }
+
+        .project-card .card-links a i {
+            font-size: 12px;
+            margin-left: 4px;
+            transition: transform 200ms ease;
+        }
+
+        .project-card .card-links a:hover i {
+            transform: translateX(3px);
         }
     </style>
 </head>
 <body class="dark-mode">
     <header id="main-header" class="sticky top-0 z-50 transition duration-300 border-b">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <a href="#" class="text-xl font-extrabold tracking-wider text-indigo-600">
-                @onlysilentsecure
+            <a href="#" class="text-xl font-extrabold tracking-wider" style="color: #F8F8F5;">
+                TinyForge
             </a>
             <nav class="space-x-4">
-                <a href="#projects" class="hover:text-indigo-600 transition duration-300 px-3 py-2 rounded-lg text-sm font-medium hidden sm:inline">Projects</a>
-                <a href="#about" class="hover:text-indigo-600 transition duration-300 px-3 py-2 rounded-lg text-sm font-medium hidden sm:inline">About</a>
-                <a href="#contact" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-md">
+                <a href="#projects" class="transition duration-300 px-3 py-2 rounded-lg text-sm font-medium hidden sm:inline" style="color: #B8BBB5;" onmouseover="this.style.color='#F15A24'" onmouseout="this.style.color='#B8BBB5'">Projects</a>
+                <a href="#about" class="transition duration-300 px-3 py-2 rounded-lg text-sm font-medium hidden sm:inline" style="color: #B8BBB5;" onmouseover="this.style.color='#F15A24'" onmouseout="this.style.color='#B8BBB5'">About</a>
+                <a href="#contact" class="text-white font-semibold py-2 px-4 rounded-lg transition duration-300" style="background-color: #F15A24; box-shadow: 0 4px 12px rgba(241,90,36,0.20);" onmouseover="this.style.backgroundColor='#D94818'" onmouseout="this.style.backgroundColor='#F15A24'">
                     Connect
                 </a>
             </nav>
@@ -119,22 +141,22 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <section id="home" class="py-20 md:py-32 text-center flex flex-col items-center justify-center">
-            <p class="text-lg text-indigo-600 mb-3 font-semibold">
+            <p class="text-lg mb-3 font-semibold" style="color: #F15A24;">
                 Welcome to the archive
             </p>
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight mb-6">
-                Ideas Now <span class="text-indigo-600">Alive</span>.
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight mb-6" style="color: #F8F8F5;">
+                Tiny<span style="color: #F15A24;">Forge</span>.
             </h1>
             <p class="text-xl text-secondary max-w-3xl mb-10">
                 A collection of small projects and tools built for the web. Simple, functional, and built to last.
             </p>
-            <a href="#projects" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl text-lg transition duration-300 shadow-lg transform hover:scale-105">
+            <a href="#projects" class="text-white font-bold py-3 px-8 rounded-xl text-lg transition duration-300 transform hover:scale-105" style="background-color: #F15A24; box-shadow: 0 4px 12px rgba(241,90,36,0.20);" onmouseover="this.style.backgroundColor='#D94818'" onmouseout="this.style.backgroundColor='#F15A24'">
                 View My Work
             </a>
         </section>
 
         <section id="projects" class="py-16 md:py-24 border-t border-custom">
-            <h2 id="projects-header" class="text-4xl font-bold mb-12 text-center text-indigo-600 opacity-0 transform translate-y-10 transition duration-700">Featured Projects</h2>
+            <h2 id="projects-header" class="text-4xl font-bold mb-12 text-center opacity-0 transform translate-y-10 transition duration-700" style="color: #F8F8F5;">Featured Projects</h2>
 
             <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             </div>
@@ -142,8 +164,8 @@
 
         <section id="about" class="py-16 md:py-24 border-t border-custom">
             <div id="about-content" class="max-w-4xl mx-auto opacity-0 transform translate-y-10 transition duration-700">
-                <h2 class="text-4xl font-bold mb-6 text-center text-indigo-600">A Bit About Me</h2>
-                <div class="bg-card p-8 rounded-xl shadow-2xl">
+                <h2 class="text-4xl font-bold mb-6 text-center" style="color: #F8F8F5;">A Bit About Me</h2>
+                <div class="bg-card p-8 rounded-xl" style="box-shadow: 0 8px 24px rgba(20,25,22,0.08);">
                     <p class="text-lg text-center text-secondary">
                         Just someone who once loved building things for the web. Still like seeing ideas come alive, even if I'm not coding anymore.
                     </p>
@@ -155,19 +177,31 @@
 
     <footer id="contact" class="border-t border-custom mt-16 py-12 opacity-0 transform translate-y-10 transition duration-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold mb-6 text-center text-indigo-600">Connect With Me</h2>
-            <div class="flex justify-center items-center">
-                <a href="#" target="_blank" class="flex items-center space-x-2 bg-card hover:opacity-80 transition duration-300 p-3 rounded-xl">
-                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                        <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                    </svg>
-                    <span class="font-semibold text-lg">@abcd</span>
-                </a>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto text-center sm:text-left">
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: #F15A24;">Brand</h3>
+                    <p class="text-sm text-secondary mb-4">TinyForge - archive of small web projects and Minecraft utilities.</p>
+                    <a href="#" target="_blank" class="text-sm text-secondary hover:opacity-80 transition duration-300">Instagram: @abcd</a>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: #F15A24;">Explore</h3>
+                    <div class="flex flex-col space-y-2 text-sm">
+                        <a href="#projects" class="text-secondary hover:opacity-80 transition duration-300">Featured Projects</a>
+                        <a href="#about" class="text-secondary hover:opacity-80 transition duration-300">About Me</a>
+                        <a href="#home" class="text-secondary hover:opacity-80 transition duration-300">Back to Top</a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: #F15A24;">Popular Tools</h3>
+                    <div class="flex flex-col space-y-2 text-sm">
+                        <a href="qr-gen.html" target="_blank" class="text-secondary hover:opacity-80 transition duration-300">QR Code Generator</a>
+                        <a href="any%20msg.html" target="_blank" class="text-secondary hover:opacity-80 transition duration-300">Message Repeater</a>
+                        <a href="circle.html" target="_blank" class="text-secondary hover:opacity-80 transition duration-300">Minecraft Circle Blueprint</a>
+                    </div>
+                </div>
             </div>
             <p class="text-center text-sm mt-8 text-secondary">
-                &copy; 2025 Ideas Now Alive. All rights reserved.
+                &copy; 2025 TinyForge. All rights reserved.
             </p>
         </div>
     </footer>
@@ -177,6 +211,27 @@
         const projectsData = [
             // --- General Tools ---
             {
+                title: "Text Case Converter",
+                description: "Convert any text to UPPER, lower, Proper or Sentence case instantly. Best for Excel data cleaning.",
+                demoLink: "case-converter.html",
+                githubLink: "javascript:void(0)",
+                iconPath: "M4 6h16M4 12h16M4 18h10"
+            },
+            {
+                title: "Age Calculator",
+                description: "Enter DOB and get exact years, months and days instantly. Useful for HR and form work.",
+                demoLink: "age-calculator.html",
+                githubLink: "javascript:void(0)",
+                iconPath: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            },
+            {
+                title: "Password Generator",
+                description: "Generate strong random passwords with custom length and symbols. Fully offline and safe.",
+                demoLink: "password-generator.html",
+                githubLink: "javascript:void(0)",
+                iconPath: "M15 7a3 3 0 11-6 0 3 3 0 016 0zm-3 4v10m-7-3h14a2 2 0 002-2v-5a2 2 0 00-2-2H7a2 2 0 00-2 2v5a2 2 0 002 2z"
+            },
+            {
                 title: "QR Code Generator",
                 description: "A simple, offline-first tool to instantly generate QR codes from any text or URL, with a convenient download option.",
                 demoLink: "qr-gen.html",
@@ -184,7 +239,7 @@
                 iconPath: "M3 4a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm11 0a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1h-6a1 1 0 01-1-1V4zm-11 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zm11 0a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1h-6a1 1 0 01-1-1v-6z"
             },
             {
-                title: "Message Repeater (Copy Tool)",
+                title: "Message Repeater",
                 description: "A quick productivity tool to repeat any custom message hundreds of times with separators (like new lines) for fast pasting into chats.",
                 demoLink: "any%20msg.html",
                 githubLink: "javascript:void(0)",
@@ -193,12 +248,19 @@
             {
                 title: "Birthday Tracker & Reminder",
                 description: "A client-side application to track and manage birthdays, showing days left, age, and trash management.",
-                demoLink: "https://meow-me7.github.io/myweb/birthday.html",
+                demoLink: "birthday.html",
                 githubLink: "javascript:void(0)",
                 iconPath: "M8 7V3m8 4V3m-9 8h10m4 0a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h14z"
             },
 
             // --- Minecraft Tools ---
+            {
+                title: "Nether Portal Calculator",
+                description: "Convert Overworld and Nether coordinates correctly. Never get lost while linking portals.",
+                demoLink: "nether-portal.html",
+                githubLink: "javascript:void(0)",
+                iconPath: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"
+            },
             {
                 title: "Skin Pack Maker",
                 description: "A utility for Minecraft Bedrock Edition that quickly packages multiple PNG skin files into a functional .mcpack file.",
@@ -229,46 +291,19 @@
 
             let html = '';
             projectsData.forEach(project => {
-                html += `
-                <div class="bg-card p-6 rounded-xl shadow-2xl transition duration-500 transform hover:scale-[1.02]">
-                <div class="mb-4">
-                <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="${project.iconPath}"></path>
-                </svg>
-                </div>
-                <h3 class="text-2xl font-semibold mb-3">${project.title}</h3>
-                <p class="mb-6 text-sm text-secondary">${project.description}</p>
-                <div class="flex space-x-4">
-                <a href="${project.demoLink}" target="_blank" class="text-indigo-600 hover:text-indigo-400 font-medium transition duration-300">View Live Demo &rarr;</a>
-                <a href="${project.githubLink}" target="_blank" class="text-secondary hover:text-indigo-600 transition duration-300">GitHub</a>
-                </div>
-                </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-
-        function renderProjects() {
-            const container = document.getElementById('projects-container');
-            if (!container) return;
-
-            let html = '';
-            projectsData.forEach(project => {
                 // ADDED: opacity-0 and translate-y-10 to hide and lower the card initially
                 // ADDED: transition duration-700 (or duration-500) for the animation speed
                 html += `
-                <div class="project-card bg-card p-6 rounded-xl shadow-lg hover:shadow-indigo-500/50 transition duration-700 transform hover:scale-[1.02] opacity-0 translate-y-10">
+                <div class="project-card bg-card p-6 rounded-xl transition duration-700 transform hover:scale-[1.02] opacity-0 translate-y-10" style="box-shadow: 0 8px 24px rgba(20,25,22,0.08);">
                 <div class="mb-4">
-                <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <svg class="w-8 h-8" style="color: #F15A24;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="${project.iconPath}"></path>
                 </svg>
                 </div>
-                <h3 class="text-2xl font-semibold mb-3">${project.title}</h3>
+                <h3 class="text-2xl font-semibold mb-3" style="color: #F8F8F5;">${project.title}</h3>
                 <p class="mb-6 text-sm text-secondary">${project.description}</p>
-                <div class="flex space-x-4">
-                <a href="${project.demoLink}" target="_blank" class="text-indigo-600 hover:text-indigo-400 font-medium transition duration-300">GitHub</a>
-                <a href="${project.githubLink}" target="_blank" class="text-secondary hover:text-indigo-600 transition duration-300"></a>
+                <div class="card-links flex space-x-4">
+                <a href="${project.demoLink}" target="_blank" class="font-medium transition duration-300" style="color: #F15A24;" onmouseover="this.style.color='#D94818'" onmouseout="this.style.color='#F15A24'">Live Demo <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
                 </div>
                 `;
@@ -323,7 +358,7 @@
 
             if (window.scrollY > scrollThreshold) {
                 header.classList.add('backdrop-blur-sm', 'shadow-xl');
-                header.style.backgroundColor = 'rgba(10, 10, 10, 0.9)';
+                header.style.backgroundColor = 'rgba(23, 25, 24, 0.9)';
             } else {
                 header.classList.remove('backdrop-blur-sm', 'shadow-xl');
                 header.style.backgroundColor = 'transparent';
