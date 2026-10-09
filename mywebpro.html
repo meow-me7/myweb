@@ -120,6 +120,10 @@
         .project-card .card-links a:hover i {
             transform: translateX(3px);
         }
+
+        .site-nav {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="dark-mode">
@@ -128,13 +132,13 @@
             <a href="#" class="text-xl font-extrabold tracking-wider" style="color: #F8F8F5;">
                 TinyForge
             </a>
-            /*<nav class="space-x-4">
+            <nav class="site-nav space-x-4" aria-hidden="true">
                 <a href="#projects" class="transition duration-300 px-3 py-2 rounded-lg text-sm font-medium hidden sm:inline" style="color: #B8BBB5;" onmouseover="this.style.color='#F15A24'" onmouseout="this.style.color='#B8BBB5'">Projects</a>
                 <a href="#about" class="transition duration-300 px-3 py-2 rounded-lg text-sm font-medium hidden sm:inline" style="color: #B8BBB5;" onmouseover="this.style.color='#F15A24'" onmouseout="this.style.color='#B8BBB5'">About</a>
                 <a href="#contact" class="text-white font-semibold py-2 px-4 rounded-lg transition duration-300" style="background-color: #F15A24; box-shadow: 0 4px 12px rgba(241,90,36,0.20);" onmouseover="this.style.backgroundColor='#D94818'" onmouseout="this.style.backgroundColor='#F15A24'">
                     Connect
                 </a>
-            </nav>*/
+            </nav>
         </div>
     </header>
 
@@ -150,7 +154,7 @@
             <p class="text-xl text-secondary max-w-3xl mb-10">
                 A collection of small projects and tools built for the web. Simple, functional, and built to last.
             </p>
-            <a href="#projects" class="text-white font-bold py-3 px-8 rounded-xl text-lg transition duration-300 transform hover:scale-105" style="background-color: #F15A24; box-shadow: 0 4px 12px rgba(241,90,36,0.20);" onmouseover="this.style.backgroundColor='#D94818'" onmouseout="this.style.backgroundColor='#F15A24'">
+            <a href="#projects" class="text-white font-bold py-3 px-8 rounded-xl text-lg transition duration-300 transform hover:scale-105" style="background-color: #F15A24; box-shadow: 0 4px 12px rgba(241,90,36,0.20);">
                 View My Work
             </a>
         </section>
@@ -291,8 +295,6 @@
 
             let html = '';
             projectsData.forEach(project => {
-                // ADDED: opacity-0 and translate-y-10 to hide and lower the card initially
-                // ADDED: transition duration-700 (or duration-500) for the animation speed
                 html += `
                 <div class="project-card bg-card p-6 rounded-xl transition duration-700 transform hover:scale-[1.02] opacity-0 translate-y-10" style="box-shadow: 0 8px 24px rgba(20,25,22,0.08);">
                 <div class="mb-4">
@@ -303,55 +305,49 @@
                 <h3 class="text-2xl font-semibold mb-3" style="color: #F8F8F5;">${project.title}</h3>
                 <p class="mb-6 text-sm text-secondary">${project.description}</p>
                 <div class="card-links flex space-x-4">
-                <a href="${project.demoLink}" target="_blank" class="font-medium transition duration-300" style="color: #F15A24;" onmouseover="this.style.color='#D94818'" onmouseout="this.style.color='#F15A24'">Live Demo <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="${project.demoLink}" target="_blank" class="font-medium transition duration-300" style="color: #F15A24;" onmouseover="this.style.color='#D94818'" onmouseout="this.style.color='#F15A24'">
+                    Live Demo
+                    <i class="fa-solid fa-arrow-up-right"></i>
+                </a>
                 </div>
                 </div>
                 `;
             });
             container.innerHTML = html;
-            // IMPORTANT: Start observing the newly rendered cards
             observeProjects();
         }
 
-        // --- NEW SCROLL REVEAL FUNCTION ---
         function observeProjects() {
             const observerOptions = {
                 root: null,
-                // relative to the viewport
                 rootMargin: '0px',
-                threshold: 0.1 // Trigger when 10% of the element is visible
+                threshold: 0.1
             };
 
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach((entry, index) => {
                     if (entry.isIntersecting) {
-                        // Apply animation with staggered delay
                         setTimeout(() => {
                             entry.target.classList.remove('opacity-0', 'translate-y-10');
                             entry.target.classList.add('opacity-100', 'translate-y-0');
-                        }, index * 100); // Stagger the animation by 100ms per item
-
-                        // Stop observing after the animation is triggered
+                        }, index * 100);
                         observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
 
-            // Get all elements we want to animate on scroll
             const targets = [
-                ...document.querySelectorAll('.project-card'), // All project cards
-                document.getElementById('projects-header'), // Projects header
-                document.getElementById('about-content'), // About content
-                document.getElementById('contact') // Footer
+                ...document.querySelectorAll('.project-card'),
+                document.getElementById('projects-header'),
+                document.getElementById('about-content'),
+                document.getElementById('contact')
             ];
 
             targets.forEach(target => {
                 if (target) observer.observe(target);
             });
         }
-        // ------------------------------------
 
-        // --- DYNAMIC HEADER FUNCTION (Kept from previous update) ---
         function handleScrollHeader() {
             const header = document.getElementById('main-header');
             const scrollThreshold = 50;
@@ -367,9 +363,6 @@
 
         window.addEventListener('scroll', handleScrollHeader);
 
-
-        // --- Security / Obfuscation Logic (Kept from original) ---
-
         document.onkeydown = function(e) {
             if (e.key === 'F12' || e.keyCode === 123) return false;
             if (e.ctrlKey && e.shiftKey && e.key === 'I') return false;
@@ -381,14 +374,10 @@
             e.preventDefault();
         });
 
-
-        // --- Initialization ---
-
         window.addEventListener('DOMContentLoaded', function() {
-            renderProjects(); // Calls observeProjects internally
+            renderProjects();
             handleScrollHeader();
 
-            // Smooth scroll setup
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -404,10 +393,8 @@
                 });
             });
 
-            // --- HERO ENTRANCE ANIMATION LOGIC (Kept from previous update) ---
             const heroElements = document.querySelectorAll('#home > *');
-            heroElements.forEach((el,
-                index) => {
+            heroElements.forEach((el, index) => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(20px)';
 
@@ -415,10 +402,8 @@
                     el.style.transition = 'opacity 0.7s ease-out, transform 0.7s ease-out';
                     el.style.opacity = '1';
                     el.style.transform = 'translateY(0)';
-                },
-                    100 * index + 200);
+                }, 100 * index + 200);
             });
-            // ------------------------------------
         });
     </script>
 </body>
